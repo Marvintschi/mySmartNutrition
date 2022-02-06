@@ -4,6 +4,10 @@ plugins {
     id 'com.android.library' version '7.1.0' apply false
 }
 
+dependencies {
+
+}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

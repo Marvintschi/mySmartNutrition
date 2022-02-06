@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">mySmartNutrition</string>
+    <string name="qr_button_text">Mit QR-Code scannen</string>
 </resources>
