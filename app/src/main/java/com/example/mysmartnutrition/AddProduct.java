@@ -21,7 +21,7 @@ public class AddProduct extends AppCompatActivity {
         QRCodeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
+                Intent intent = new Intent(AddProduct.this, BarcodeScanner.class);
                 startActivity(intent);
             }
         });
