@@ -233,6 +233,7 @@
                         android:paddingVertical="5dp"
                         android:paddingStart="10dp"
                         android:paddingEnd="10dp"
+                        android:textAlignment="textStart"
                         android:text="+ weiteres Produkt hinzufügen"
                         android:textColor="@color/white"
                         android:textSize="17sp" />
@@ -375,6 +376,7 @@
                         android:paddingVertical="5dp"
                         android:paddingStart="10dp"
                         android:paddingEnd="10dp"
+                        android:textAlignment="textStart"
                         android:text="+ weiteres Produkt hinzufügen"
                         android:textColor="@color/white"
                         android:textSize="17sp" />
