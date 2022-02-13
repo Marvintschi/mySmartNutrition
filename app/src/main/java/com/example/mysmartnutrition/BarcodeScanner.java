@@ -50,7 +50,7 @@ public class BarcodeScanner extends AppCompatActivity {
                 .build();
 
         cameraSource = new CameraSource.Builder(this, barcodeDetector)
-                .setRequestedPreviewSize(1920, 1080)
+                .setRequestedPreviewSize(1440, 1080)
                 .setAutoFocusEnabled(true) //you should add this feature
                 .build();
 
@@ -130,7 +130,7 @@ public class BarcodeScanner extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        getSupportActionBar().hide();
+        // getSupportActionBar().hide(); --> experienced crashes with this method
         initialiseDetectorsAndSources();
     }
 }
