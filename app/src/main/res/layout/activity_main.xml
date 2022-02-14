@@ -224,9 +224,9 @@
 
 
                     <Button
-                        android:id="@+id/textView13"
+                        android:id="@+id/add_product_breakfast"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="0dp"
                         android:layout_marginTop="5dp"
                         android:layout_weight="1"
                         android:background="@color/secondaryMain"
@@ -367,9 +367,9 @@
 
 
                     <Button
-                        android:id="@+id/textView22"
+                        android:id="@+id/add_product_lunch"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="0dp"
                         android:layout_marginTop="5dp"
                         android:layout_weight="1"
                         android:background="@color/secondaryMain"
