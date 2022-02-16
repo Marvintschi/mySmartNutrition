@@ -10,4 +10,5 @@
     <color name="background">#010A43</color>
     <color name="foreground_1">#192259</color>
     <color name="foreground_2">#FF212A60</color>
+    <color name="foreground_3">#131C53</color>
 </resources>

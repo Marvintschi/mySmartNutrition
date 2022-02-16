@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         addButton = findViewById(R.id.fab);
         addBreakfast = findViewById(R.id.add_product_breakfast);
         addLunch = findViewById(R.id.add_product_lunch);
-        // addDinner = findViewById(R.id.add_product_dinner); for later
+        addDinner = findViewById(R.id.add_product_dinner);
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,13 +51,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /* for later
         addDinner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, AddProduct.class);
                 startActivity(intent);
             }
-        }); */
+        });
     }
 }
