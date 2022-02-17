@@ -2,11 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/background"
-    tools:context=".AddProduct">
+    tools:context=".AddProductDetails">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -14,10 +14,7 @@
         android:layout_height="wrap_content"
         android:background="@color/foreground_1"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:theme="?attr/actionBarTheme">
 
     <TextView
         android:id="@+id/textView"
@@ -25,25 +22,15 @@
         android:layout_height="wrap_content"
         android:text="Nahrungsmittel hinzufügen"
         android:textColor="@color/white"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/toolbar"
-        app:layout_constraintEnd_toEndOf="@+id/toolbar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/toolbar" />
+        android:textSize="20sp" />
 
     </androidx.appcompat.widget.Toolbar>
 
-    <Button
-        android:id="@+id/qr_code_button"
+    <TextView
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:background="@drawable/round_button"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:text="@string/qr_button_text"
+        android:layout_height="wrap_content"
         android:textColor="@color/white"
-        android:layout_gravity="center"
-        android:layout_marginVertical="300dp"
-        tools:ignore="TouchTargetSizeCheck" />
+        android:text="TextView" />
 
 </LinearLayout>
