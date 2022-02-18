@@ -143,6 +143,7 @@
                             android:layout_weight="1"
                             android:textColor="@color/white"
                             android:textSize="20sp"
+                            android:textStyle="bold"
                             android:text="Frühstück" />
 
                         <TextView
@@ -156,6 +157,7 @@
                             android:text="473 kcal"
                             android:textAlignment="viewEnd"
                             android:textColor="@color/white"
+                            android:textStyle="bold"
                             android:textSize="20sp" />
                     </LinearLayout>
 
@@ -287,6 +289,7 @@
                             android:layout_weight="1"
                             android:textColor="@color/white"
                             android:textSize="20sp"
+                            android:textStyle="bold"
                             android:text="Mittagessen" />
 
                         <TextView
@@ -300,6 +303,7 @@
                             android:text="473 kcal"
                             android:textAlignment="viewEnd"
                             android:textColor="@color/white"
+                            android:textStyle="bold"
                             android:textSize="20sp" />
                     </LinearLayout>
 
@@ -431,6 +435,7 @@
                             android:layout_weight="1"
                             android:textColor="@color/white"
                             android:textSize="20sp"
+                            android:textStyle="bold"
                             android:text="Abendessen" />
 
                         <TextView
@@ -444,6 +449,7 @@
                             android:text="473 kcal"
                             android:textAlignment="viewEnd"
                             android:textColor="@color/white"
+                            android:textStyle="bold"
                             android:textSize="20sp" />
                     </LinearLayout>
 

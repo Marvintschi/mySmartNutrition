@@ -4,4 +4,5 @@
     <string name="header_text">Tagesübersicht</string>
     <string name="tageslimit_header">Heutiges Tageslimit</string>
     <string name="aufgebrauchte_kalorien_header">Aufgebraucht</string>
+    <string name="produktname">*Platzhalter Produkt*</string>
 </resources>
