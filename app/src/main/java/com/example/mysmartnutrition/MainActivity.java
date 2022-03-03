@@ -1,5 +1,7 @@
 package com.example.mysmartnutrition;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -19,6 +21,13 @@ import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
     // Objects from the activity_main.xml file
@@ -31,7 +40,134 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private SensorManager sensorManager;
     private Sensor stepCounterSensor;
     private boolean isStepCounterPresent;
-    int stepCount = 0;
+    private int stepCount = 0;
+    private int stepsOfToday;
+    private long allSteps;
+    private List<Integer> savedStepsList = new List<Integer>() {
+        @Override
+        public int size() {
+            return 0;
+        }
+
+        @Override
+        public boolean isEmpty() {
+            return false;
+        }
+
+        @Override
+        public boolean contains(@Nullable Object o) {
+            return false;
+        }
+
+        @NonNull
+        @Override
+        public Iterator<Integer> iterator() {
+            return null;
+        }
+
+        @NonNull
+        @Override
+        public Object[] toArray() {
+            return new Object[0];
+        }
+
+        @NonNull
+        @Override
+        public <T> T[] toArray(@NonNull T[] a) {
+            return null;
+        }
+
+        @Override
+        public boolean add(Integer integer) {
+            return false;
+        }
+
+        @Override
+        public boolean remove(@Nullable Object o) {
+            return false;
+        }
+
+        @Override
+        public boolean containsAll(@NonNull Collection<?> c) {
+            return false;
+        }
+
+        @Override
+        public boolean addAll(@NonNull Collection<? extends Integer> c) {
+            return false;
+        }
+
+        @Override
+        public boolean addAll(int index, @NonNull Collection<? extends Integer> c) {
+            return false;
+        }
+
+        @Override
+        public boolean removeAll(@NonNull Collection<?> c) {
+            return false;
+        }
+
+        @Override
+        public boolean retainAll(@NonNull Collection<?> c) {
+            return false;
+        }
+
+        @Override
+        public void clear() {
+
+        }
+
+        @Override
+        public Integer get(int index) {
+            return null;
+        }
+
+        @Override
+        public Integer set(int index, Integer element) {
+            return null;
+        }
+
+        @Override
+        public void add(int index, Integer element) {
+
+        }
+
+        @Override
+        public Integer remove(int index) {
+            return null;
+        }
+
+        @Override
+        public int indexOf(@Nullable Object o) {
+            return 0;
+        }
+
+        @Override
+        public int lastIndexOf(@Nullable Object o) {
+            return 0;
+        }
+
+        @NonNull
+        @Override
+        public ListIterator<Integer> listIterator() {
+            return null;
+        }
+
+        @NonNull
+        @Override
+        public ListIterator<Integer> listIterator(int index) {
+            return null;
+        }
+
+        @NonNull
+        @Override
+        public List<Integer> subList(int fromIndex, int toIndex) {
+            return null;
+        }
+    };
+
+    public SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+    public Date date = new Date();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +178,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_DENIED){ //ask for permission
             requestPermissions(new String[]{Manifest.permission.ACTIVITY_RECOGNITION}, 0);
         }
+
+
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
@@ -92,6 +230,17 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             tvStepCounter.setText("Step counter sensor is not present");
             isStepCounterPresent = false;
         }
+
+        if(dateFormatter.format(date).contains("00:00:00")) {
+            resetSteps();
+        }
+    }
+
+    public void resetSteps() {
+        stepsOfToday = stepCount;
+        stepCount -= stepsOfToday;
+        tvStepCounter.setText(stepCount);
+        savedStepsList.add(stepsOfToday);
     }
 
     @Override
@@ -111,7 +260,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     protected void onResume() {
         super.onResume();
         if(sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER) != null) {
-            sensorManager.registerListener(this, stepCounterSensor, SensorManager.SENSOR_DELAY_NORMAL);
+            sensorManager.registerListener(this, stepCounterSensor, SensorManager.SENSOR_DELAY_UI);
         }
     }
 
