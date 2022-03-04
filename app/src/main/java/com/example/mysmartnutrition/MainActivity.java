@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private boolean isStepCounterPresent;
     private int stepCount = 0;
     private int stepsOfToday;
-    private long allSteps;
     private List<Integer> savedStepsList = new List<Integer>() {
         @Override
         public int size() {
@@ -166,8 +165,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
     };
 
-    public SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
-    public Date date = new Date();
     public String savedDate;
     public String notSavedDate;
 
@@ -235,7 +232,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void resetSteps() {
         stepsOfToday = stepCount;
         stepCount -= stepsOfToday;
-        tvStepCounter.setText(stepCount);
         savedStepsList.add(stepsOfToday);
     }
 
@@ -243,8 +239,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void onSensorChanged(SensorEvent event) {
         if(event.sensor == stepCounterSensor) {
             stepCount = (int) event.values[0];
-            savedDate = dateFormatter.format(date);
-            if(savedDate != notSavedDate) {
+            stepCount -= stepsOfToday;
+            savedDate = String.valueOf(java.time.LocalDate.now());
+            if(!savedDate.equalsIgnoreCase(notSavedDate)) {
                 resetSteps();
                 notSavedDate = savedDate;
             }
