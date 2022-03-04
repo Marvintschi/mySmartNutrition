@@ -166,8 +166,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
     };
 
-    public SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+    public SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
     public Date date = new Date();
+    public String savedDate;
+    public String notSavedDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -178,8 +180,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_DENIED){ //ask for permission
             requestPermissions(new String[]{Manifest.permission.ACTIVITY_RECOGNITION}, 0);
         }
-
-
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
@@ -230,10 +230,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             tvStepCounter.setText("Step counter sensor is not present");
             isStepCounterPresent = false;
         }
-
-        if(dateFormatter.format(date).contains("00:00:00")) {
-            resetSteps();
-        }
     }
 
     public void resetSteps() {
@@ -247,6 +243,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void onSensorChanged(SensorEvent event) {
         if(event.sensor == stepCounterSensor) {
             stepCount = (int) event.values[0];
+            savedDate = dateFormatter.format(date);
+            if(savedDate != notSavedDate) {
+                resetSteps();
+                notSavedDate = savedDate;
+            }
             tvStepCounter.setText(String.valueOf(stepCount));
         }
     }
