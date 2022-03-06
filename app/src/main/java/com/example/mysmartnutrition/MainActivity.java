@@ -8,12 +8,14 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -166,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     };
 
     public String savedDate;
-    public String notSavedDate;
+    public static String notSavedDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -241,9 +243,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             stepCount = (int) event.values[0];
             stepCount -= stepsOfToday;
             savedDate = String.valueOf(java.time.LocalDate.now());
+            // notSavedDate = sharedPreferences.getString("notSavedDate", notSavedDate);
             if(!savedDate.equalsIgnoreCase(notSavedDate)) {
                 resetSteps();
                 notSavedDate = savedDate;
+                // adds variable to SharedPreference
+                // editor.putString("notSavedDate", notSavedDate);
+                // editor.commit();
             }
             tvStepCounter.setText(String.valueOf(stepCount));
         }
