@@ -45,8 +45,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private Sensor stepCounterSensor;
     private boolean isStepCounterPresent;
     private int stepCount = 0;
-    private int stepsOfToday;
-    private List<Integer> savedStepsList = new List<Integer>() {
+    private int stepsOfToday = 0;
+    /* private List<Integer> savedStepsList = new List<Integer>() {
         @Override
         public int size() {
             return 0;
@@ -167,10 +167,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         public List<Integer> subList(int fromIndex, int toIndex) {
             return null;
         }
-    };
+    }; */
 
     public String savedDate;
-    public static String notSavedDate;
+    public String notSavedDate;
 
     public SharedPreferences sharedPreferences = new SharedPreferences() {
         @Override
@@ -346,7 +346,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void resetSteps() {
         stepsOfToday = stepCount;
         stepCount -= stepsOfToday;
-        savedStepsList.add(stepsOfToday);
+        editor.putInt("stepsOfToday", stepsOfToday);
     }
 
     @Override
@@ -355,7 +355,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             stepCount = (int) event.values[0];
             stepCount -= stepsOfToday;
             savedDate = String.valueOf(java.time.LocalDate.now());
-            notSavedDate = sharedPreferences.getString("notSavedDate", notSavedDate);
+            editor.putInt("stepCount", stepCount);
+            // notSavedDate = sharedPreferences.getString("notSavedDate", "");
             if(!savedDate.equalsIgnoreCase(notSavedDate)) {
                 resetSteps();
                 notSavedDate = savedDate;
@@ -363,6 +364,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 editor.putString("notSavedDate", notSavedDate);
                 editor.commit();
             }
+            // int test = sharedPreferences.getInt("stepCount", 1);
             tvStepCounter.setText(String.valueOf(stepCount));
         }
     }
