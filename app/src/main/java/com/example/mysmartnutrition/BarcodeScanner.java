@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
@@ -68,8 +69,6 @@ public class BarcodeScanner extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
-
             }
 
             @Override
@@ -106,11 +105,12 @@ public class BarcodeScanner extends AppCompatActivity {
                                 barcodeText.setText(barcodeData);
                                 toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
                             } else {
-
                                 barcodeData = barcodes.valueAt(0).displayValue;
                                 barcodeText.setText(barcodeData);
                                 toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
-
+                                Intent intent = new Intent(BarcodeScanner.this, AddProductDetails.class);
+                                intent.putExtra("barcodeData", barcodeData);
+                                startActivity(intent);
                             }
                         }
                     });
@@ -123,14 +123,14 @@ public class BarcodeScanner extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        getSupportActionBar().hide();
+        // getSupportActionBar().hide();
         cameraSource.release();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        // getSupportActionBar().hide(); --> experienced crashes with this method
+        // getSupportActionBar().hide();  --> experienced crashes with this method
         initialiseDetectorsAndSources();
     }
 }
