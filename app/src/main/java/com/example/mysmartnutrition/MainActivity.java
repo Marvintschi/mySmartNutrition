@@ -344,44 +344,52 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             tvStepCounter.setText("Step counter sensor is not present");
             isStepCounterPresent = false;
         }
+
         savedDate = String.valueOf(java.time.LocalDate.now());
-
-        Toast.makeText(getApplicationContext(), " " + savedDate + " ", Toast.LENGTH_LONG).show();
+        getData();
+        //Toast.makeText(getApplicationContext(), " " + savedDate + " ", Toast.LENGTH_LONG).show();
     }
 
-    public void resetSteps() {
-        stepsOfToday = stepCount;
-        stepCount -= stepsOfToday;
-        dayStep = 0;
-        editor.putInt("stepsOfToday", stepsOfToday);
-    }
 
-    public void pushStepsToDB(){
+
+    public void pushStepsToDB(int dayStep){
         SQLiteDatabase database = openOrCreateDatabase("mysmartnutrition.db", MODE_PRIVATE, null);
-        database.execSQL("create table if not exists steps(date text, steps integer, kcalBurned integer)");
-        database.execSQL("insert into steps values('2022-03-17', '3500', '200')");
+        database.execSQL("create table if not exists stepss(date text, stepCounter integer, kcalBurned integer)");
+        String CONTACTS_TABLE_NAME = "stepss";
+        database.execSQL("UPDATE "+CONTACTS_TABLE_NAME+" SET stepCounter = "+"'"+ dayStep +"' "+ "WHERE date = "+"'"+savedDate+"'");
         database.close();
-        Toast.makeText(getApplicationContext(), " " + "succesful" + " ", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(), " " + "succesful" + " ", Toast.LENGTH_SHORT).show();
+    }
 
-        //Cursor cursor = database.rawQuery("select * from questions where frage = '" + random + "'", null);
+    public void getData(){
+        SQLiteDatabase database = openOrCreateDatabase("mysmartnutrition.db", MODE_PRIVATE, null);
+        Cursor cursor = database.rawQuery("select * from stepss where date = '" + savedDate + "'", null);
+
+        cursor.moveToFirst();
+
+        String date = cursor.getString(0);
+        dayStep = Integer.valueOf(cursor.getString(1));
+        String kcal = cursor.getString(2);
+
+        database.close();
+
+        //Toast.makeText(getApplicationContext(), " " + dayStep + " step" + " ", Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
         if(event.sensor == stepCounterSensor) {
             stepCount = (int) event.values[0];
-            stepCount -= stepsOfToday;
+            getData();
+            dayStep ++;
             savedDate = String.valueOf(java.time.LocalDate.now());
             editor.putInt("stepCount", stepCount);
-            if(!savedDate.equalsIgnoreCase(notSavedDate)) {
-                resetSteps();
-                notSavedDate = savedDate;
-                editor.putString("notSavedDate", notSavedDate);
-                editor.commit();
-            }
-            tvStepCounter.setText(String.valueOf(stepCount));
+
+            tvStepCounter.setText(String.valueOf(dayStep));
+            pushStepsToDB(dayStep);
         }
-        pushStepsToDB();
+
     }
 
     @Override
