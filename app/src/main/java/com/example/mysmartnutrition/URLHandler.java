@@ -12,7 +12,7 @@ import java.net.URL;
 
 public class URLHandler {
 
-    public String getJSONAPIURL(String requestUrl) {
+    public String httpServiceCall(String requestUrl) {
         String result = null;
         try {
             URL url = new URL(requestUrl);
