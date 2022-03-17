@@ -10,6 +10,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -20,6 +22,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -45,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private boolean isStepCounterPresent;
     private int stepCount = 0;
     private int stepsOfToday = 0;
+    public int dayStep = 0;
     /* private List<Integer> savedStepsList = new List<Integer>() {
         @Override
         public int size() {
@@ -340,32 +344,52 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             tvStepCounter.setText("Step counter sensor is not present");
             isStepCounterPresent = false;
         }
+
+        savedDate = String.valueOf(java.time.LocalDate.now());
+        getData();
+        //Toast.makeText(getApplicationContext(), " " + savedDate + " ", Toast.LENGTH_LONG).show();
     }
 
-    public void resetSteps() {
-        stepsOfToday = stepCount;
-        stepCount -= stepsOfToday;
-        editor.putInt("stepsOfToday", stepsOfToday);
+
+
+    public void pushStepsToDB(int dayStep){
+        SQLiteDatabase database = openOrCreateDatabase("mysmartnutrition.db", MODE_PRIVATE, null);
+        database.execSQL("create table if not exists stepss(date text, stepCounter integer, kcalBurned integer)");
+        String CONTACTS_TABLE_NAME = "stepss";
+        database.execSQL("UPDATE "+CONTACTS_TABLE_NAME+" SET stepCounter = "+"'"+ dayStep +"' "+ "WHERE date = "+"'"+savedDate+"'");
+        database.close();
+        //Toast.makeText(getApplicationContext(), " " + "succesful" + " ", Toast.LENGTH_SHORT).show();
+    }
+
+    public void getData(){
+        SQLiteDatabase database = openOrCreateDatabase("mysmartnutrition.db", MODE_PRIVATE, null);
+        Cursor cursor = database.rawQuery("select * from stepss where date = '" + savedDate + "'", null);
+
+        cursor.moveToFirst();
+
+        String date = cursor.getString(0);
+        dayStep = Integer.valueOf(cursor.getString(1));
+        String kcal = cursor.getString(2);
+
+        database.close();
+
+        //Toast.makeText(getApplicationContext(), " " + dayStep + " step" + " ", Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
         if(event.sensor == stepCounterSensor) {
             stepCount = (int) event.values[0];
-            stepCount -= stepsOfToday;
+            getData();
+            dayStep ++;
             savedDate = String.valueOf(java.time.LocalDate.now());
             editor.putInt("stepCount", stepCount);
-            // notSavedDate = sharedPreferences.getString("notSavedDate", "");
-            if(!savedDate.equalsIgnoreCase(notSavedDate)) {
-                resetSteps();
-                notSavedDate = savedDate;
-                // adds variable to SharedPreference
-                editor.putString("notSavedDate", notSavedDate);
-                editor.commit();
-            }
-            // int test = sharedPreferences.getInt("stepCount", 1);
-            tvStepCounter.setText(String.valueOf(stepCount));
+
+            tvStepCounter.setText(String.valueOf(dayStep));
+            pushStepsToDB(dayStep);
         }
+
     }
 
     @Override
@@ -388,4 +412,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             sensorManager.unregisterListener(this, stepCounterSensor);
         }
     }
+
+
 }
