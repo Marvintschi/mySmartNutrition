@@ -346,6 +346,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
 
         savedDate = String.valueOf(java.time.LocalDate.now());
+
+        SQLiteDatabase database = openOrCreateDatabase("mysmartnutrition.db", MODE_PRIVATE, null);
+        database.execSQL("create table if not exists stepsss(date text, stepCounter integer, kcalBurned integer)");
+        dayStep = 0;
         getData();
         //Toast.makeText(getApplicationContext(), " " + savedDate + " ", Toast.LENGTH_LONG).show();
     }
@@ -354,42 +358,63 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     public void pushStepsToDB(int dayStep){
         SQLiteDatabase database = openOrCreateDatabase("mysmartnutrition.db", MODE_PRIVATE, null);
-        database.execSQL("create table if not exists stepss(date text, stepCounter integer, kcalBurned integer)");
-        String CONTACTS_TABLE_NAME = "stepss";
+        database.execSQL("create table if not exists stepsss(date text, stepCounter integer, kcalBurned integer)");
+        String CONTACTS_TABLE_NAME = "stepsss";
         database.execSQL("UPDATE "+CONTACTS_TABLE_NAME+" SET stepCounter = "+"'"+ dayStep +"' "+ "WHERE date = "+"'"+savedDate+"'");
         database.close();
         //Toast.makeText(getApplicationContext(), " " + "succesful" + " ", Toast.LENGTH_SHORT).show();
     }
 
     public void getData(){
-        SQLiteDatabase database = openOrCreateDatabase("mysmartnutrition.db", MODE_PRIVATE, null);
-        Cursor cursor = database.rawQuery("select * from stepss where date = '" + savedDate + "'", null);
+        savedDate = String.valueOf(java.time.LocalDate.now());
+        if(checkIsEntryAlreadyInDB() == true){
+            SQLiteDatabase database = openOrCreateDatabase("mysmartnutrition.db", MODE_PRIVATE, null);
+            Cursor cursor = database.rawQuery("select * from stepsss where date = '" + savedDate + "'", null);
+            cursor.moveToFirst();
+            String date = cursor.getString(0);
+            dayStep = Integer.valueOf(cursor.getString(1));
+            String kcal = cursor.getString(2);
+            cursor.close();
+            database.close();
+        }
+        else{
+            SQLiteDatabase database = openOrCreateDatabase("mysmartnutrition.db", MODE_PRIVATE, null);
+            database.execSQL("create table if not exists stepsss(date text, stepCounter integer, kcalBurned integer)");
+            database.execSQL("insert into stepsss values('" + savedDate + "', '0', '0')");
+            database.close();
+            Toast.makeText(getApplicationContext(), " " + "Entry not found but generated" + " ", Toast.LENGTH_SHORT).show();
 
-        cursor.moveToFirst();
+        }
 
-        String date = cursor.getString(0);
-        dayStep = Integer.valueOf(cursor.getString(1));
-        String kcal = cursor.getString(2);
-
-        database.close();
 
         //Toast.makeText(getApplicationContext(), " " + dayStep + " step" + " ", Toast.LENGTH_SHORT).show();
 
+    }
+
+    public boolean checkIsEntryAlreadyInDB(){
+        SQLiteDatabase database = openOrCreateDatabase("mysmartnutrition.db", MODE_PRIVATE, null);
+        Cursor cursor = database.rawQuery("select * from stepsss where date = '" + savedDate + "'", null);
+        if(cursor.getCount() <= 0){
+            cursor.close();
+            return false;
+        }
+        cursor.close();
+        return true;
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
         if(event.sensor == stepCounterSensor) {
             stepCount = (int) event.values[0];
+            savedDate = String.valueOf(java.time.LocalDate.now());
+            SQLiteDatabase database = openOrCreateDatabase("mysmartnutrition.db", MODE_PRIVATE, null);
+            database.execSQL("create table if not exists stepsss(date text, stepCounter integer, kcalBurned integer)");
+            dayStep = 0;
             getData();
             dayStep ++;
-            savedDate = String.valueOf(java.time.LocalDate.now());
-            editor.putInt("stepCount", stepCount);
-
-            tvStepCounter.setText(String.valueOf(dayStep));
             pushStepsToDB(dayStep);
+            tvStepCounter.setText(String.valueOf(dayStep));
         }
-
     }
 
     @Override
