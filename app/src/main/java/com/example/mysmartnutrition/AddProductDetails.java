@@ -5,7 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.Adapter;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,30 +29,19 @@ import java.nio.charset.Charset;
 public class AddProductDetails extends AppCompatActivity {
 
     private String barcode = "";
+    private String url = "";
     private String produktName, fett, energie, zucker, kohlenhydrate, proteine, menge;
 
     private TextView tvPortionen, tvPortionsgroesse, tvMahlzeitangabe;
 
-
-    private static String readAll(Reader reader) throws IOException {
-        StringBuilder stringBuilder = new StringBuilder();
-        int count;
-        while ((count = reader.read()) != -1) {
-            stringBuilder.append((char) count);
+    public void CreateURL() {
+        // holt Daten vom Barcode
+        Bundle extras = getIntent().getExtras();
+            if (extras != null) {
+            barcode = extras.getString("barcodeData");
         }
-        return stringBuilder.toString();
-    }
 
-    public static JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
-        InputStream inputStream = new URL(url).openStream(); // --> hier crasht die App --> Caused by: android.os.NetworkOnMainThreadException
-        try {
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, Charset.forName("UTF-8")));
-            String jsonText = readAll(bufferedReader);
-            JSONObject json = new JSONObject(jsonText);
-            return json;
-        } finally {
-            inputStream.close();
-        }
+        url = "https://world.openfoodfacts.org/api/v0/product/" + barcode + ".json";
     }
 
     @Override
@@ -61,37 +53,40 @@ public class AddProductDetails extends AppCompatActivity {
         tvPortionsgroesse = findViewById(R.id.portionsgroesse);
         tvMahlzeitangabe = findViewById(R.id.mahlzeitangabe);
 
-        // holt Daten vom Barcode
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            barcode = extras.getString("barcodeData");
+        new getData().execute();
+    }
+
+    class getData extends AsyncTask<String, Void, JSONObject> {
+
+        @Override
+        protected JSONObject doInBackground(String... strings) {
+
+            URLHandler urlHandler = new URLHandler();
+            CreateURL();
+
+            String jsonString = urlHandler.httpServiceCall(url);
+            if (jsonString != null) {
+                try {
+                    JSONObject jsonObject = new JSONObject(jsonString);
+                    JSONObject product = jsonObject.getJSONObject("product");
+
+                    produktName = product.getString("product_name");
+                    fett = product.getString("fat");
+                    energie = product.getString("energy");
+
+                    tvPortionen.setText(produktName);
+                    tvPortionsgroesse.setText(fett);
+                    tvMahlzeitangabe.setText(energie);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            return null;
         }
 
-        String url = "https://world.openfoodfacts.org/api/v0/product/" + barcode + ".json";
-
-        try {
-            JSONObject jsonObject = readJsonFromUrl(url);
-            JSONObject product = jsonObject.getJSONObject("product");
-            /* JSONObject produktName_json = jsonObject.getJSONObject("product_name");
-            JSONObject fett_json = jsonObject.getJSONObject("fat");
-            JSONObject energie_json = jsonObject.getJSONObject("energy");
-            JSONObject zucker_json = jsonObject.getJSONObject("sugars");
-            JSONObject kohlenhydrate_json = jsonObject.getJSONObject("carbohydrates");
-            JSONObject proteine_json = jsonObject.getJSONObject("proteins");
-            JSONObject menge_json = jsonObject.getJSONObject("quantity"); */
-
-            produktName = product.getString("product_name");
-            fett = product.getString("fat");
-            energie = product.getString("energy");
-
-            menge = product.getString("quantity");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        @Override
+        protected void onPostExecute(JSONObject jsonObject) {
+            super.onPostExecute(jsonObject);
         }
-
-        tvPortionsgroesse.setText(menge);
-        tvPortionen.setText("energie:" + energie);
     }
 }

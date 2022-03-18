@@ -348,7 +348,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         savedDate = String.valueOf(java.time.LocalDate.now());
 
         SQLiteDatabase database = openOrCreateDatabase("mysmartnutrition.db", MODE_PRIVATE, null);
-        database.execSQL("create table if not exists stepsss(date text, stepCounter integer, kcalBurned integer)");
+        database.execSQL("create table if not exists steps(date text, stepCounter integer, kcalBurned integer)");
         dayStep = 0;
         getData();
         //Toast.makeText(getApplicationContext(), " " + savedDate + " ", Toast.LENGTH_LONG).show();
@@ -362,7 +362,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         String CONTACTS_TABLE_NAME = "stepsss";
         database.execSQL("UPDATE "+CONTACTS_TABLE_NAME+" SET stepCounter = "+"'"+ dayStep +"' "+ "WHERE date = "+"'"+savedDate+"'");
         database.close();
-        //Toast.makeText(getApplicationContext(), " " + "succesful" + " ", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(), " " + "successful" + " ", Toast.LENGTH_SHORT).show();
     }
 
     public void getData(){

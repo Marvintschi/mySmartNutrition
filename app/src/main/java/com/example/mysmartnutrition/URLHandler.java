@@ -37,7 +37,7 @@ public class URLHandler {
 
         String li;
 
-        while(true) {
+        while (true) {
             try {
                 if (!((li = bufferedReader.readLine()) != null)) {
                     stringBuilder.append('\n');

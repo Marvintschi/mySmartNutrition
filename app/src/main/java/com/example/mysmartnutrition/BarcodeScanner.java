@@ -106,11 +106,14 @@ public class BarcodeScanner extends AppCompatActivity {
                                 toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
                             } else {
                                 barcodeData = barcodes.valueAt(0).displayValue;
-                                barcodeText.setText(barcodeData);
-                                toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
-                                Intent intent = new Intent(BarcodeScanner.this, AddProductDetails.class);
-                                intent.putExtra("barcodeData", barcodeData);
-                                startActivity(intent);
+                                // Testen!
+                                if (barcodeData.length() > 3) {
+                                    barcodeText.setText(barcodeData);
+                                    toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
+                                    Intent intent = new Intent(BarcodeScanner.this, AddProductDetails.class);
+                                    intent.putExtra("barcodeData", barcodeData);
+                                    startActivity(intent);
+                                }
                             }
                         }
                     });
