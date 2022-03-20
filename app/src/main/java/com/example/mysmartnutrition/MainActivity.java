@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private int stepCount = 0;
     private int stepsOfToday = 0;
     public int dayStep = 0;
+    public int counterReading = 0;
     /* private List<Integer> savedStepsList = new List<Integer>() {
         @Override
         public int size() {
@@ -348,58 +349,57 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         savedDate = String.valueOf(java.time.LocalDate.now());
 
         SQLiteDatabase database = openOrCreateDatabase("mysmartnutrition.db", MODE_PRIVATE, null);
-        database.execSQL("create table if not exists steps(date text, stepCounter integer, kcalBurned integer)");
-        dayStep = 0;
-        getData();
-        //Toast.makeText(getApplicationContext(), " " + savedDate + " ", Toast.LENGTH_LONG).show();
+        database.execSQL("create table if not exists test3(date text, dayStep integer, systemCounter integer)");
+
+        /*java.io.File file = new java.io.File("/data/data/com.example.mysmartnutrition/databases/mysmartnutrition.db");
+        if (file.exists()) {
+        }else
+        {
+            generateEmptyEntry(savedDate, '0');
+        }
+
+        getDataFromDB(savedDate);*/
     }
 
 
 
-    public void pushStepsToDB(int dayStep){
+    public void pushStepsToDB(int dayStep, int stepCount, String date){
         SQLiteDatabase database = openOrCreateDatabase("mysmartnutrition.db", MODE_PRIVATE, null);
-        database.execSQL("create table if not exists stepsss(date text, stepCounter integer, kcalBurned integer)");
-        String CONTACTS_TABLE_NAME = "stepsss";
-        database.execSQL("UPDATE "+CONTACTS_TABLE_NAME+" SET stepCounter = "+"'"+ dayStep +"' "+ "WHERE date = "+"'"+savedDate+"'");
+        //database.execSQL("create table if not exists test3(date text, dayStep integer, systemCounter integer)");
+        database.execSQL("UPDATE test3 SET dayStep = "+"'"+ dayStep +"', systemCounter = '" + stepCount + "' WHERE date = " + "'" + date + "'");
         database.close();
-        //Toast.makeText(getApplicationContext(), " " + "successful" + " ", Toast.LENGTH_SHORT).show();
     }
 
-    public void getData(){
-        savedDate = String.valueOf(java.time.LocalDate.now());
-        if(checkIsEntryAlreadyInDB() == true){
-            SQLiteDatabase database = openOrCreateDatabase("mysmartnutrition.db", MODE_PRIVATE, null);
-            Cursor cursor = database.rawQuery("select * from stepsss where date = '" + savedDate + "'", null);
-            cursor.moveToFirst();
-            String date = cursor.getString(0);
-            dayStep = Integer.valueOf(cursor.getString(1));
-            String kcal = cursor.getString(2);
-            cursor.close();
-            database.close();
-        }
-        else{
-            SQLiteDatabase database = openOrCreateDatabase("mysmartnutrition.db", MODE_PRIVATE, null);
-            database.execSQL("create table if not exists stepsss(date text, stepCounter integer, kcalBurned integer)");
-            database.execSQL("insert into stepsss values('" + savedDate + "', '0', '0')");
-            database.close();
-            Toast.makeText(getApplicationContext(), " " + "Entry not found but generated" + " ", Toast.LENGTH_SHORT).show();
-
-        }
-
-
-        //Toast.makeText(getApplicationContext(), " " + dayStep + " step" + " ", Toast.LENGTH_SHORT).show();
-
-    }
-
-    public boolean checkIsEntryAlreadyInDB(){
+    public void getDataFromDB(String date){
         SQLiteDatabase database = openOrCreateDatabase("mysmartnutrition.db", MODE_PRIVATE, null);
-        Cursor cursor = database.rawQuery("select * from stepsss where date = '" + savedDate + "'", null);
+        Cursor cursor = database.rawQuery("select * from test3 where date = '" + date + "'", null);
+
+        cursor.moveToFirst();
+
+        dayStep = Integer.valueOf(cursor.getString(1));
+        counterReading = Integer.valueOf(cursor.getString(2));
+        cursor.close();
+        database.close();
+    }
+
+    public boolean checkIsEntryAlreadyInDB(String date){
+        SQLiteDatabase database = openOrCreateDatabase("mysmartnutrition.db", MODE_PRIVATE, null);
+        Cursor cursor = database.rawQuery("select * from test3 where date = '" + date + "'", null);
         if(cursor.getCount() <= 0){
             cursor.close();
+            database.close();
             return false;
         }
         cursor.close();
+        database.close();
         return true;
+    }
+
+    public void generateEmptyEntry(String date, int counter){
+        SQLiteDatabase database = openOrCreateDatabase("mysmartnutrition.db", MODE_PRIVATE, null);
+        database.execSQL("create table if not exists test3(date text, dayStep integer, systemCounter integer)");
+        database.execSQL("insert into test3 values('" + savedDate + "' , '0' , '" + stepCount + "')");
+        database.close();
     }
 
     @Override
@@ -407,12 +407,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         if(event.sensor == stepCounterSensor) {
             stepCount = (int) event.values[0];
             savedDate = String.valueOf(java.time.LocalDate.now());
-            SQLiteDatabase database = openOrCreateDatabase("mysmartnutrition.db", MODE_PRIVATE, null);
-            database.execSQL("create table if not exists stepsss(date text, stepCounter integer, kcalBurned integer)");
-            dayStep = 0;
-            getData();
-            dayStep ++;
-            pushStepsToDB(dayStep);
+            if(checkIsEntryAlreadyInDB(savedDate) == false){
+                generateEmptyEntry(savedDate, '0');
+            }
+            getDataFromDB(savedDate);
+
+            dayStep = dayStep + (stepCount - counterReading);
+
+            pushStepsToDB(dayStep, stepCount, savedDate);
+
             tvStepCounter.setText(String.valueOf(dayStep));
         }
     }
