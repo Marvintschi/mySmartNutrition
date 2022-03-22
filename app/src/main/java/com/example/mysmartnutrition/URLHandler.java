@@ -51,7 +51,7 @@ public class URLHandler {
                     e.printStackTrace();
                 }
             }
-            return stringBuilder.toString();
+            return li;
         }
     }
 }

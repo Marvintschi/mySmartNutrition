@@ -2,6 +2,8 @@ package com.example.mysmartnutrition;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -32,7 +34,9 @@ public class AddProductDetails extends AppCompatActivity {
     private String url = "";
     private String produktName, fett, energie, zucker, kohlenhydrate, proteine, menge;
 
-    private TextView tvPortionen, tvPortionsgroesse, tvMahlzeitangabe;
+    private TextView tvProduktName, tvPortionen, tvPortionsgroesse, tvMahlzeitangabe;
+
+    private ProgressDialog progressDialog;
 
     public void CreateURL() {
         // holt Daten vom Barcode
@@ -49,17 +53,28 @@ public class AddProductDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_product_details);
 
+        tvProduktName = findViewById(R.id.produkt_name);
         tvPortionen = findViewById(R.id.portionen);
         tvPortionsgroesse = findViewById(R.id.portionsgroesse);
         tvMahlzeitangabe = findViewById(R.id.mahlzeitangabe);
 
         new getData().execute();
 
-        tvPortionen.setText(produktName);
-
     }
 
     class getData extends AsyncTask<String, Void, JSONObject> {
+
+        JSONObject product;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            progressDialog = new ProgressDialog(AddProductDetails.this);
+            progressDialog.setMessage("Loading Data...");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+        }
 
         @Override
         protected JSONObject doInBackground(String... strings) {
@@ -71,14 +86,33 @@ public class AddProductDetails extends AppCompatActivity {
             if (jsonString != null) {
                 try {
                     JSONObject jsonObject = new JSONObject(jsonString);
-                    JSONObject product = jsonObject.getJSONObject("product");
+
+                    product = jsonObject.getJSONObject("product");
 
                     produktName = product.getString("product_name");
 
-                    return jsonObject;
                 } catch (JSONException e) {
-                    e.printStackTrace();
+
+                    Intent intent = new Intent(AddProductDetails.this, BarcodeScanner.class);
+                    startActivity(intent);
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "Produkt konnte nicht gefunden werden", Toast.LENGTH_LONG).show();
+                        }
+                    });
                 }
+            } else {
+                Intent intent = new Intent(AddProductDetails.this, BarcodeScanner.class);
+                startActivity(intent);
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "Server Error", Toast.LENGTH_LONG).show();
+                    }
+                });
             }
             return null;
         }
@@ -86,6 +120,12 @@ public class AddProductDetails extends AppCompatActivity {
         @Override
         protected void onPostExecute(JSONObject jsonObject) {
             super.onPostExecute(jsonObject);
+
+            if (progressDialog.isShowing()) {
+                progressDialog.dismiss();
+            }
+
+            tvProduktName.setText(produktName);
         }
     }
 }
