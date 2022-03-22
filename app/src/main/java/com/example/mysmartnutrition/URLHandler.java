@@ -12,6 +12,8 @@ import java.net.URL;
 
 public class URLHandler {
 
+    String li;
+
     public String httpServiceCall(String requestUrl) {
         String result = null;
         try {
@@ -35,12 +37,10 @@ public class URLHandler {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
         StringBuilder stringBuilder = new StringBuilder();
 
-        String li;
-
         while (true) {
             try {
-                if (!((li = bufferedReader.readLine()) != null)) {
-                    stringBuilder.append('\n');
+                if ((li = bufferedReader.readLine()) != null) {
+                    stringBuilder.append(li);
                 }
             } catch (IOException e) {
                 e.printStackTrace();

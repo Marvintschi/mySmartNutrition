@@ -54,6 +54,9 @@ public class AddProductDetails extends AppCompatActivity {
         tvMahlzeitangabe = findViewById(R.id.mahlzeitangabe);
 
         new getData().execute();
+
+        tvPortionen.setText(produktName);
+
     }
 
     class getData extends AsyncTask<String, Void, JSONObject> {
@@ -71,12 +74,8 @@ public class AddProductDetails extends AppCompatActivity {
                     JSONObject product = jsonObject.getJSONObject("product");
 
                     produktName = product.getString("product_name");
-                    fett = product.getString("fat");
-                    energie = product.getString("energy");
 
-                    tvPortionen.setText(produktName);
-                    tvPortionsgroesse.setText(fett);
-                    tvMahlzeitangabe.setText(energie);
+                    return jsonObject;
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
