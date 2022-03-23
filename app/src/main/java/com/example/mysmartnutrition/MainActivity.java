@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.content.Context;
@@ -26,6 +28,7 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
@@ -174,7 +177,18 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }; */
 
     public String savedDate;
-    public String notSavedDate;
+
+
+    DatabaseHelper db;
+
+    RecyclerView recyclerView, recyclerView2, recyclerView3, recyclerView4;
+
+    ArrayList<String> product_name_breakfast = null, product_manufacture_breakfast, product_kcal_breakfast;
+    ArrayList<String> product_name_lunch = null, product_manufacture_lunch, product_kcal_lunch;
+    ArrayList<String> product_name_dinner = null, product_manufacture_dinner, product_kcal_dinner;
+    ArrayList<String> product_name_snacks = null, product_manufacture_snacks, product_kcal_snacks;
+
+    CustomAdapter customAdapter, Adapter, Adapter2, Adapter3;
 
     public SharedPreferences sharedPreferences = new SharedPreferences() {
         @Override
@@ -306,6 +320,52 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         addDinner = findViewById(R.id.add_product_dinner);
         tvStepCounter = findViewById(R.id.stepCounter);
 
+        recyclerView = findViewById(R.id.lvContact);
+        recyclerView2 = findViewById(R.id.lvContact2);
+        recyclerView3 = findViewById(R.id.lvContact3);
+        recyclerView4 = findViewById(R.id.lvContact4);
+
+        savedDate = String.valueOf(java.time.LocalDate.now());
+
+        db = new DatabaseHelper(MainActivity.this);
+        //db.insertDataToDB();
+        product_name_breakfast = new ArrayList<>();
+        product_manufacture_breakfast = new ArrayList<>();
+        product_kcal_breakfast = new ArrayList<>();
+
+        product_name_lunch = new ArrayList<>();
+        product_manufacture_lunch = new ArrayList<>();
+        product_kcal_lunch = new ArrayList<>();
+
+        product_name_dinner = new ArrayList<>();
+        product_manufacture_dinner = new ArrayList<>();
+        product_kcal_dinner = new ArrayList<>();
+
+        product_name_snacks = new ArrayList<>();
+        product_manufacture_snacks = new ArrayList<>();
+        product_kcal_snacks = new ArrayList<>();
+
+
+        storeDataInArrays("Frühstück", savedDate);
+        customAdapter = new CustomAdapter(MainActivity.this, product_name_breakfast, product_manufacture_breakfast, product_kcal_breakfast);
+        recyclerView.setAdapter(customAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+
+        storeDataInArrays1("Mittagessen", savedDate);
+        Adapter = new CustomAdapter(MainActivity.this, product_name_lunch, product_manufacture_lunch, product_kcal_lunch);
+        recyclerView2.setAdapter(Adapter);
+        recyclerView2.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+
+        storeDataInArrays2("Abendessen", savedDate);
+        Adapter2 = new CustomAdapter(MainActivity.this, product_name_dinner, product_manufacture_dinner, product_kcal_dinner);
+        recyclerView3.setAdapter(Adapter2);
+        recyclerView3.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+
+        storeDataInArrays3("Snack", savedDate);
+        Adapter3 = new CustomAdapter(MainActivity.this, product_name_snacks, product_manufacture_snacks, product_kcal_snacks);
+        recyclerView4.setAdapter(Adapter3);
+        recyclerView4.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -346,7 +406,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             isStepCounterPresent = false;
         }
 
-        savedDate = String.valueOf(java.time.LocalDate.now());
 
         SQLiteDatabase database = openOrCreateDatabase("mysmartnutrition.db", MODE_PRIVATE, null);
         database.execSQL("create table if not exists test3(date text, dayStep integer, systemCounter integer)");
@@ -438,6 +497,78 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         super.onPause();
         if(sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER) != null) {
             sensorManager.unregisterListener(this, stepCounterSensor);
+        }
+    }
+
+    public void storeDataInArrays(String meal, String date){
+        Cursor cursor = db.viewData(meal, date);
+
+        if(cursor.getCount() == 0){
+            Toast.makeText(this, "No data to show", Toast.LENGTH_LONG).show();
+        } else{
+            while (cursor.moveToNext()){
+                product_name_breakfast.add(cursor.getString(1));
+                product_manufacture_breakfast.add(cursor.getString(2));
+                float kcal = Float.valueOf(cursor.getString(4));
+                float amountConsumed = Float.valueOf(cursor.getString(9));
+                float kcalTotal = Math.round(amountConsumed * (kcal/100));
+                int result = (int) kcalTotal;
+                product_kcal_breakfast.add(String.valueOf(result));
+            }
+        }
+    }
+
+    public void storeDataInArrays1(String meal, String date){
+        Cursor cursor = db.viewData(meal, date);
+
+        if(cursor.getCount() == 0){
+            Toast.makeText(this, "No data to show", Toast.LENGTH_LONG).show();
+        } else{
+            while (cursor.moveToNext()){
+                product_name_lunch.add(cursor.getString(1));
+                product_manufacture_lunch.add(cursor.getString(2));
+                float kcal = Float.valueOf(cursor.getString(4));
+                float amountConsumed = Float.valueOf(cursor.getString(9));
+                float kcalTotal = Math.round(amountConsumed * (kcal/100));
+                int result = (int) kcalTotal;
+                product_kcal_lunch.add(String.valueOf(result));
+            }
+        }
+    }
+
+    public void storeDataInArrays2(String meal, String date){
+        Cursor cursor = db.viewData(meal, date);
+
+        if(cursor.getCount() == 0){
+            Toast.makeText(this, "No data to show", Toast.LENGTH_LONG).show();
+        } else{
+            while (cursor.moveToNext()){
+                product_name_dinner.add(cursor.getString(1));
+                product_manufacture_dinner.add(cursor.getString(2));
+                float kcal = Float.valueOf(cursor.getString(4));
+                float amountConsumed = Float.valueOf(cursor.getString(9));
+                float kcalTotal = Math.round(amountConsumed * (kcal/100));
+                int result = (int) kcalTotal;
+                product_kcal_dinner.add(String.valueOf(result));
+            }
+        }
+    }
+
+    public void storeDataInArrays3(String meal, String date){
+        Cursor cursor = db.viewData(meal, date);
+
+        if(cursor.getCount() == 0){
+            Toast.makeText(this, "No data to show", Toast.LENGTH_LONG).show();
+        } else{
+            while (cursor.moveToNext()){
+                product_name_snacks.add(cursor.getString(1));
+                product_manufacture_snacks.add(cursor.getString(2));
+                float kcal = Float.valueOf(cursor.getString(4));
+                float amountConsumed = Float.valueOf(cursor.getString(9));
+                float kcalTotal = Math.round(amountConsumed * (kcal/100));
+                int result = (int) kcalTotal;
+                product_kcal_snacks.add(String.valueOf(result));
+            }
         }
     }
 

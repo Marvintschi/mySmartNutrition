@@ -54,19 +54,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void insertDataToDB(){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("INSERT INTO " + DB_TABLE + " (DATE, PRODUCT_NAME, PRODUCT_MANUFACTURE, EAN_CODE, kcalPER100, carbohydratePER100, fatPER100, proteinPER100, fiberPER100, amountConsumed, meal) " +
-                "VALUES('23.03.2022', 'YFood Vanille', 'YFOOD', '14260556630007', '100', '7', '4', '6', '1', '500', 'Frühstück')");
+                "VALUES('2022-03-23', 'YFood Vanille', 'YFOOD', '14260556630007', '100', '7', '4', '6', '1', '500', 'Frühstück')");
         db.execSQL("INSERT INTO " + DB_TABLE + " (DATE, PRODUCT_NAME, PRODUCT_MANUFACTURE, EAN_CODE, kcalPER100, carbohydratePER100, fatPER100, proteinPER100, fiberPER100, amountConsumed, meal) " +
-                "VALUES('23.03.2022', 'Spaghetti', 'Barilla', '8076800195057', '359', '71', '2', '13', '3', '85', 'Mittagessen')");
+                "VALUES('2022-03-23', 'Spaghetti', 'Barilla', '8076800195057', '359', '71', '2', '13', '3', '85', 'Mittagessen')");
         db.execSQL("INSERT INTO " + DB_TABLE + " (DATE, PRODUCT_NAME, PRODUCT_MANUFACTURE, EAN_CODE, kcalPER100, carbohydratePER100, fatPER100, proteinPER100, fiberPER100, amountConsumed, meal) " +
-                "VALUES('23.03.2022', 'Joghurt mit Kokos', 'Alpro', '5411188119098', '55', '2', '3', '4', '1', '500', 'Abendessen')");
+                "VALUES('2022-03-23', 'Joghurt mit Kokos', 'Alpro', '5411188119098', '55', '2', '3', '4', '1', '500', 'Abendessen')");
         db.execSQL("INSERT INTO " + DB_TABLE + " (DATE, PRODUCT_NAME, PRODUCT_MANUFACTURE, EAN_CODE, kcalPER100, carbohydratePER100, fatPER100, proteinPER100, fiberPER100, amountConsumed, meal) " +
-                "VALUES('23.03.2022', 'Twix', 'Mars', '5000159459228', '495', '65', '24', '4', '1', '25', 'Snack')");
+                "VALUES('2022-03-23', 'Twix', 'Mars', '5000159459228', '495', '65', '24', '4', '1', '25', 'Snack')");
     }
 
 
     //create method to view Data
-    Cursor viewData(){
-        String query = "SELECT * FROM " + DB_TABLE;
+    Cursor viewData(String meal, String date){
+        String query = "SELECT * FROM " + DB_TABLE + " WHERE meal = '" + meal + "' AND DATE = '" + date + "'";
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = null;
