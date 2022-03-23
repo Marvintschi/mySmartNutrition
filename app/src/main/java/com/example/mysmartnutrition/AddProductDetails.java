@@ -93,8 +93,7 @@ public class AddProductDetails extends AppCompatActivity {
 
                 } catch (JSONException e) {
 
-                    Intent intent = new Intent(AddProductDetails.this, BarcodeScanner.class);
-                    startActivity(intent);
+                    finish();
 
                     runOnUiThread(new Runnable() {
                         @Override
@@ -104,8 +103,8 @@ public class AddProductDetails extends AppCompatActivity {
                     });
                 }
             } else {
-                Intent intent = new Intent(AddProductDetails.this, BarcodeScanner.class);
-                startActivity(intent);
+
+                finish();
 
                 runOnUiThread(new Runnable() {
                     @Override
