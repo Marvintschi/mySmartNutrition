@@ -504,7 +504,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         Cursor cursor = db.viewData(meal, date);
 
         if(cursor.getCount() == 0){
-            Toast.makeText(this, "No data to show", Toast.LENGTH_LONG).show();
+            // Toast.makeText(this, "No data to show", Toast.LENGTH_SHORT).show();
         } else{
             while (cursor.moveToNext()){
                 product_name_breakfast.add(cursor.getString(1));
@@ -522,7 +522,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         Cursor cursor = db.viewData(meal, date);
 
         if(cursor.getCount() == 0){
-            Toast.makeText(this, "No data to show", Toast.LENGTH_LONG).show();
+            // Toast.makeText(this, "No data to show", Toast.LENGTH_SHORT).show();
         } else{
             while (cursor.moveToNext()){
                 product_name_lunch.add(cursor.getString(1));
@@ -540,7 +540,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         Cursor cursor = db.viewData(meal, date);
 
         if(cursor.getCount() == 0){
-            Toast.makeText(this, "No data to show", Toast.LENGTH_LONG).show();
+            // Toast.makeText(this, "No data to show", Toast.LENGTH_SHORT).show();
         } else{
             while (cursor.moveToNext()){
                 product_name_dinner.add(cursor.getString(1));
@@ -558,7 +558,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         Cursor cursor = db.viewData(meal, date);
 
         if(cursor.getCount() == 0){
-            Toast.makeText(this, "No data to show", Toast.LENGTH_LONG).show();
+            // Toast.makeText(this, "No data to show", Toast.LENGTH_SHORT).show();
         } else{
             while (cursor.moveToNext()){
                 product_name_snacks.add(cursor.getString(1));

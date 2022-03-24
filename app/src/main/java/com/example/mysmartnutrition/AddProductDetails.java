@@ -32,9 +32,9 @@ public class AddProductDetails extends AppCompatActivity {
 
     private String barcode = "";
     private String url = "";
-    private String produktName, fett, energie, zucker, kohlenhydrate, proteine, menge;
+    private String produktName, hersteller, fett, energie, kohlenhydrate, proteine, ballastStoffe, menge;
 
-    private TextView tvProduktName, tvPortionen, tvPortionsgroesse, tvMahlzeitangabe;
+    private TextView tvProduktName, tvHersteller, tvFett, tvEnergie, tvKohlenhydrate, tvProteine, tvBallaststoffe, tvMenge, tvPortionen, tvPortionsgroesse, tvMahlzeitangabe;
 
     private ProgressDialog progressDialog;
 
@@ -90,6 +90,42 @@ public class AddProductDetails extends AppCompatActivity {
                     product = jsonObject.getJSONObject("product");
 
                     produktName = product.getString("product_name");
+
+                    try {
+                        hersteller = product.getString("name");
+                    } catch (Exception e) {
+                        hersteller = "";
+                    }
+                    try {
+                        fett = product.getString("fat");
+                    } catch (Exception e) {
+                        fett = "0";
+                    }
+                    try {
+                        energie = product.getString("energy-kcal");
+                    } catch (Exception e) {
+                        energie = "0";
+                    }
+                    try {
+                        kohlenhydrate = product.getString("carbohydrates");
+                    } catch (Exception e) {
+                        kohlenhydrate = "0";
+                    }
+                    try {
+                        proteine = product.getString("proteins");
+                    } catch (Exception e) {
+                        proteine = "0";
+                    }
+                    try {
+                        ballastStoffe = product.getString("fiber");
+                    } catch (Exception e) {
+                        ballastStoffe = "0";
+                    }
+                    try {
+                        menge = product.getString("quantity");
+                    } catch (Exception e) {
+                        menge = "1";
+                    }
 
                 } catch (JSONException e) {
 
