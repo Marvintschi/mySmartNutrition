@@ -54,6 +54,13 @@ public class AddProductDetails extends AppCompatActivity {
         setContentView(R.layout.activity_add_product_details);
 
         tvProduktName = findViewById(R.id.produkt_name);
+        tvHersteller = findViewById(R.id.hersteller);
+        tvFett = findViewById(R.id.fett);
+        tvEnergie = findViewById(R.id.energie);
+        tvKohlenhydrate = findViewById(R.id.kohlenhydrate);
+        tvProteine = findViewById(R.id.proteine);
+        tvBallaststoffe = findViewById(R.id.ballaststoffe);
+        tvMenge = findViewById(R.id.menge);
         tvPortionen = findViewById(R.id.portionen);
         tvPortionsgroesse = findViewById(R.id.portionsgroesse);
         tvMahlzeitangabe = findViewById(R.id.mahlzeitangabe);
@@ -85,10 +92,9 @@ public class AddProductDetails extends AppCompatActivity {
             String jsonString = urlHandler.httpServiceCall(url);
             if (jsonString != null) {
                 try {
+
                     JSONObject jsonObject = new JSONObject(jsonString);
-
                     product = jsonObject.getJSONObject("product");
-
                     produktName = product.getString("product_name");
 
                     try {
@@ -97,27 +103,27 @@ public class AddProductDetails extends AppCompatActivity {
                         hersteller = "";
                     }
                     try {
-                        fett = product.getString("fat");
+                        fett = String.valueOf(product.getDouble("fat"));
                     } catch (Exception e) {
                         fett = "0";
                     }
                     try {
-                        energie = product.getString("energy-kcal");
+                        energie = String.valueOf(product.getDouble("energy-kcal"));
                     } catch (Exception e) {
                         energie = "0";
                     }
                     try {
-                        kohlenhydrate = product.getString("carbohydrates");
+                        kohlenhydrate = String.valueOf(product.getDouble("carbohydrates"));
                     } catch (Exception e) {
                         kohlenhydrate = "0";
                     }
                     try {
-                        proteine = product.getString("proteins");
+                        proteine = String.valueOf(product.getDouble("proteins"));
                     } catch (Exception e) {
                         proteine = "0";
                     }
                     try {
-                        ballastStoffe = product.getString("fiber");
+                        ballastStoffe = String.valueOf(product.getDouble("fiber"));
                     } catch (Exception e) {
                         ballastStoffe = "0";
                     }
@@ -134,7 +140,7 @@ public class AddProductDetails extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(getApplicationContext(), "Produkt konnte nicht gefunden werden", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Produkt konnte nicht gefunden werden", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -145,7 +151,7 @@ public class AddProductDetails extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getApplicationContext(), "Server Error", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Server Error", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -161,6 +167,14 @@ public class AddProductDetails extends AppCompatActivity {
             }
 
             tvProduktName.setText(produktName);
+            tvHersteller.setText(hersteller);
+            tvFett.setText(fett);
+            tvEnergie.setText(energie);
+            tvKohlenhydrate.setText(kohlenhydrate);
+            tvProteine.setText(proteine);
+            tvBallaststoffe.setText(ballastStoffe);
+            tvMenge.setText(menge);
+
         }
     }
 }
