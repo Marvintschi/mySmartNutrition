@@ -12,6 +12,8 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.FirstPartyScopes;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -71,7 +73,9 @@ public class AddProductDetails extends AppCompatActivity {
 
     class getData extends AsyncTask<String, Void, JSONObject> {
 
-        JSONObject product;
+        JSONObject product, nutriments;
+        JSONArray sources;
+
 
         @Override
         protected void onPreExecute() {
@@ -92,38 +96,49 @@ public class AddProductDetails extends AppCompatActivity {
             String jsonString = urlHandler.httpServiceCall(url);
             if (jsonString != null) {
                 try {
-
                     JSONObject jsonObject = new JSONObject(jsonString);
+                    //product = product.getJSONObject("product");
                     product = jsonObject.getJSONObject("product");
                     produktName = product.getString("product_name");
 
                     try {
-                        hersteller = product.getString("name");
+                        //product = jsonObject.getJSONObject("product");
+                        int a  = 0;
+                        sources = new JSONArray(product.getJSONObject("sources"));
+                        System.out.print(sources);
+                        hersteller = sources.getJSONObject(0).toString();
                     } catch (Exception e) {
-                        hersteller = "";
+                        hersteller = "1";
                     }
                     try {
-                        fett = String.valueOf(product.getDouble("fat"));
+                        nutriments = product.getJSONObject("nutriments");
+                        fett = String.valueOf(nutriments.getDouble("fat_100g"));
+
                     } catch (Exception e) {
                         fett = "0";
+
                     }
                     try {
-                        energie = String.valueOf(product.getDouble("energy-kcal"));
+                        nutriments = product.getJSONObject("nutriments");
+                        energie = String.valueOf(nutriments.getString("energy-kcal"));
                     } catch (Exception e) {
                         energie = "0";
                     }
                     try {
-                        kohlenhydrate = String.valueOf(product.getDouble("carbohydrates"));
+                        nutriments = product.getJSONObject("nutriments");
+                        kohlenhydrate = String.valueOf(nutriments.getString("carbohydrates"));
                     } catch (Exception e) {
                         kohlenhydrate = "0";
                     }
                     try {
-                        proteine = String.valueOf(product.getDouble("proteins"));
+                        nutriments = product.getJSONObject("nutriments");
+                        proteine = String.valueOf(nutriments.getDouble("proteins"));
                     } catch (Exception e) {
                         proteine = "0";
                     }
                     try {
-                        ballastStoffe = String.valueOf(product.getDouble("fiber"));
+                        nutriments = product.getJSONObject("nutriments");
+                        ballastStoffe = String.valueOf(nutriments.getDouble("fiber"));
                     } catch (Exception e) {
                         ballastStoffe = "0";
                     }
