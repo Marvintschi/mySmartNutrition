@@ -66,6 +66,15 @@
                         android:background="@color/background"
                         app:srcCompat="@drawable/arrow_forward"/>
 
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginRight="8dp"
+                        android:onClick="showSettings"
+                        app:srcCompat="@drawable/settings_icon" />
+
                 </LinearLayout>
 
                 <LinearLayout

@@ -9,8 +9,10 @@
         <entry key="..\:/Users/Megaport/AndroidStudioProjects/mySmartNutrition/app/src/main/res/layout/activity_add_product_details.xml" value="0.33" />
         <entry key="..\:/Users/Megaport/AndroidStudioProjects/mySmartNutrition/app/src/main/res/layout/activity_barcode_scanner.xml" value="0.25" />
         <entry key="..\:/Users/Megaport/AndroidStudioProjects/mySmartNutrition/app/src/main/res/layout/activity_main.xml" value="0.28038897893030795" />
+        <entry key="..\:/Users/marvi/AndroidStudioProjects/mySmartNutrition/app/src/main/res/layout/activity_add_product.xml" value="0.2871376811594203" />
         <entry key="..\:/Users/marvi/AndroidStudioProjects/mySmartNutrition/app/src/main/res/layout/activity_add_product_details.xml" value="0.2921195652173913" />
-        <entry key="..\:/Users/marvi/AndroidStudioProjects/mySmartNutrition/app/src/main/res/layout/activity_main.xml" value="0.22760416666666666" />
+        <entry key="..\:/Users/marvi/AndroidStudioProjects/mySmartNutrition/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Users/marvi/AndroidStudioProjects/mySmartNutrition/app/src/main/res/layout/activity_settings.xml" value="0.2871376811594203" />
         <entry key="..\:/Users/marvi/AndroidStudioProjects/mySmartNutrition/app/src/main/res/layout/my_row.xml" value="0.22708333333333333" />
         <entry key="..\:/Users/rausc/AndroidStudioProjects/mySmartNutrition/app/src/main/res/layout/activity_add_product.xml" value="0.19429347826086957" />
         <entry key="..\:/Users/rausc/AndroidStudioProjects/mySmartNutrition/app/src/main/res/layout/activity_add_product_details.xml" value="0.2341485507246377" />
@@ -18,7 +20,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="11" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
