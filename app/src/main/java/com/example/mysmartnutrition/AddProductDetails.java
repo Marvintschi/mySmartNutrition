@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -42,7 +43,8 @@ public class AddProductDetails extends AppCompatActivity {
     private String produktName, hersteller, fett, energie, kohlenhydrate, proteine, ballastStoffe, menge;
 
     private TextView tvProduktName, tvHersteller, tvFett, tvEnergie, tvKohlenhydrate, tvProteine, tvBallaststoffe, tvMenge, tvPortionen, tvPortionsgroesse, tvMahlzeitangabe;
-
+    private EditText amountConsumed;
+    private Spinner mahlzeitAngabe;
     private ProgressDialog progressDialog;
 
     String savedDate = String.valueOf(java.time.LocalDate.now());
@@ -72,6 +74,8 @@ public class AddProductDetails extends AppCompatActivity {
         tvBallaststoffe = findViewById(R.id.ballaststoffe);
         tvMenge = findViewById(R.id.menge);
 
+        amountConsumed = (EditText) findViewById(R.id.editTextNumber);
+
         Spinner staticSpinner = (Spinner) findViewById(R.id.mahlzeitangabe);
 
         // Create an ArrayAdapter using the string array and a default spinner
@@ -84,7 +88,7 @@ public class AddProductDetails extends AppCompatActivity {
         // Apply the adapter to the spinner
         staticSpinner.setAdapter(staticAdapter);
 
-        Spinner mahlzeitAngabe = (Spinner) findViewById(R.id.mahlzeitangabe);
+        mahlzeitAngabe = (Spinner) findViewById(R.id.mahlzeitangabe);
 
         String[] items = new String[] { "Frühstück", "Mittagessen", "Abendessen", "Snacks" };
 
@@ -92,6 +96,7 @@ public class AddProductDetails extends AppCompatActivity {
                 R.layout.spinner_item, items);
 
         mahlzeitAngabe.setAdapter(adapter);
+
 
         mahlzeitAngabe.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -241,7 +246,9 @@ public class AddProductDetails extends AppCompatActivity {
     public void pushData(View view){
         DatabaseHelper db;
         db = new DatabaseHelper(AddProductDetails.this);
-        db.insertDataToDB(savedDate, produktName, hersteller, barcode, energie, kohlenhydrate, fett, proteine, ballastStoffe, "100", "Frühstück");
+        String consumed = String.valueOf(amountConsumed.getText().toString());
+        String meal = mahlzeitAngabe.getSelectedItem().toString();
+        db.insertDataToDB(savedDate, produktName, hersteller, barcode, energie, kohlenhydrate, fett, proteine, ballastStoffe, consumed, meal);
         Intent intent = new Intent(AddProductDetails.this, MainActivity.class);
         startActivity(intent);
     }
