@@ -103,12 +103,16 @@ public class AddProductDetails extends AppCompatActivity {
 
                     try {
                         //product = jsonObject.getJSONObject("product");
-                        int a  = 0;
+                        /*int a  = 0;
                         sources = new JSONArray(product.getJSONObject("sources"));
                         System.out.print(sources);
-                        hersteller = sources.getJSONObject(0).toString();
+                        hersteller = sources.getJSONObject(0).toString();*/
+                        hersteller = product.getString("owner");
+                        hersteller = hersteller.replace("org-", "");
+                        hersteller = hersteller.replace("-", " ");
+
                     } catch (Exception e) {
-                        hersteller = "1";
+                        hersteller = "";
                     }
                     try {
                         nutriments = product.getJSONObject("nutriments");
