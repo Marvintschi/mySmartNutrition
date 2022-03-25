@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
             android:layout_weight="0.8"
-            android:text="kcal"
+            android:text="kcal:"
             android:textColor="#FFFFFF"
             android:textSize="20sp" />
 
@@ -93,7 +93,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
             android:layout_weight="0.8"
-            android:text="Schritte"
+            android:text="Schritte:"
             android:textColor="#FFFFFF"
             android:textSize="20sp" />
 
@@ -124,7 +124,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
             android:layout_weight="0.8"
-            android:text="Wasser"
+            android:text="Wasser:"
             android:textColor="#FFFFFF"
             android:textSize="20sp" />
 
@@ -133,22 +133,31 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:layout_marginEnd="5dp"
             android:backgroundTint="#FFFFFF"
-            android:ems="10"
+            android:ems="9"
             android:inputType="numberDecimal"
             android:textColor="#FFFFFF"
             android:textSize="20sp" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ml"
+            android:textSize="17sp"
+            android:textColor="@color/white">
+        </TextView>
     </LinearLayout>
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/save_goals"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:background="@color/secondaryMain"
         android:onClick="GetTextFromSQL"
         android:text="Bestätigen"
+        android:layout_margin="10dp"
         android:textColor="@color/white"
         android:textSize="16sp" />
 
