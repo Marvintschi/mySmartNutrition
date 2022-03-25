@@ -377,7 +377,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         recyclerView4.setLayoutManager(new LinearLayoutManager(MainActivity.this));
 
         int currentKcal = result1 + result2 + result3 + result4;
-        aufgebrauchtKcal.setText(String.valueOf(currentKcal));
+        aufgebrauchtKcal.setText(String.valueOf(currentKcal) + " kcal");
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -387,7 +387,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         });
 
-        addBreakfast.setOnClickListener(new View.OnClickListener() {
+        /*addBreakfast.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, AddProduct.class);
@@ -409,7 +409,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 Intent intent = new Intent(MainActivity.this, AddProduct.class);
                 startActivity(intent);
             }
-        });
+        });*/
 
         if(sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER) != null) {
             stepCounterSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
