@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,11 +32,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.Arrays;
+import java.util.List;
 
 public class AddProductDetails extends AppCompatActivity {
 
@@ -44,7 +49,7 @@ public class AddProductDetails extends AppCompatActivity {
 
     private TextView tvProduktName, tvHersteller, tvFett, tvEnergie, tvKohlenhydrate, tvProteine, tvBallaststoffe, tvMenge, tvPortionen, tvPortionsgroesse, tvMahlzeitangabe;
     private EditText amountConsumed;
-    private Spinner mahlzeitAngabe;
+    private Spinner spinner;
     private ProgressDialog progressDialog;
 
     String savedDate = String.valueOf(java.time.LocalDate.now());
@@ -76,42 +81,20 @@ public class AddProductDetails extends AppCompatActivity {
 
         amountConsumed = (EditText) findViewById(R.id.editTextNumber);
 
-        Spinner staticSpinner = (Spinner) findViewById(R.id.mahlzeitangabe);
+        final List<String> items = Arrays.asList("Frühstück", "Mittagessen", "Abendessen", "Snack");
 
-        // Create an ArrayAdapter using the string array and a default spinner
-        ArrayAdapter<CharSequence> staticAdapter = ArrayAdapter.createFromResource(this, R.array.Mahlzeiten,
-                android.R.layout.simple_spinner_item);
+        spinner = (Spinner) findViewById(R.id.mahlzeitangabe);
 
-        // Specify the layout to use when the list of choices appears
-        staticAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), R.layout.my_selected_item, items);
 
-        // Apply the adapter to the spinner
-        staticSpinner.setAdapter(staticAdapter);
+        adapter.setDropDownViewResource(R.layout.my_dropdown_item);
 
-        mahlzeitAngabe = (Spinner) findViewById(R.id.mahlzeitangabe);
+        spinner.setAdapter(adapter);
 
-        String[] items = new String[] { "Frühstück", "Mittagessen", "Abendessen", "Snacks" };
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, items);
-
-        mahlzeitAngabe.setAdapter(adapter);
-
-
-        mahlzeitAngabe.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view,
-                                       int position, long id) {
-                Log.v("item", (String) parent.getItemAtPosition(position));
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // TODO Auto-generated method stub
-            }
-        });
 
         new getData().execute();
+
+
 
     }
 
@@ -120,7 +103,6 @@ public class AddProductDetails extends AppCompatActivity {
     class getData extends AsyncTask<String, Void, JSONObject> {
 
         JSONObject product, nutriments;
-        JSONArray sources;
 
 
         @Override
@@ -247,7 +229,7 @@ public class AddProductDetails extends AppCompatActivity {
         DatabaseHelper db;
         db = new DatabaseHelper(AddProductDetails.this);
         String consumed = String.valueOf(amountConsumed.getText().toString());
-        String meal = mahlzeitAngabe.getSelectedItem().toString();
+        String meal = spinner.getSelectedItem().toString();
         db.insertDataToDB(savedDate, produktName, hersteller, barcode, energie, kohlenhydrate, fett, proteine, ballastStoffe, consumed, meal);
         Intent intent = new Intent(AddProductDetails.this, MainActivity.class);
         startActivity(intent);

@@ -276,9 +276,7 @@
             android:layout_marginBottom="15dp"
             android:layout_weight="1"
             android:backgroundTint="#FFFFFF"
-            android:foregroundTint="#FFFFFF"
             android:textAlignment="viewEnd"
-            android:textColor="@color/white"
             android:textSize="17sp" />
 
     </LinearLayout>
