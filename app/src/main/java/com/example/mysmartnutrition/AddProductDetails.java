@@ -53,6 +53,7 @@ public class AddProductDetails extends AppCompatActivity {
     private ProgressDialog progressDialog;
 
     String savedDate = String.valueOf(java.time.LocalDate.now());
+    String consumed;
 
 
     public void CreateURL() {
@@ -225,13 +226,16 @@ public class AddProductDetails extends AppCompatActivity {
     public void pushData(View view){
         DatabaseHelper db;
         db = new DatabaseHelper(AddProductDetails.this);
-        String consumed = String.valueOf(amountConsumed.getText().toString());
+        consumed = amountConsumed.getText().toString();
         if(consumed == ""){
-            consumed = "0";
+            Toast.makeText(getApplicationContext(), "Bitte die Menge eingeben", Toast.LENGTH_SHORT).show();
         }
-        String meal = spinner.getSelectedItem().toString();
-        db.insertDataToDB(savedDate, produktName, hersteller, barcode, energie, kohlenhydrate, fett, proteine, ballastStoffe, consumed, meal);
-        Intent intent = new Intent(AddProductDetails.this, MainActivity.class);
-        startActivity(intent);
+        else {
+            String meal = spinner.getSelectedItem().toString();
+            db.insertDataToDB(savedDate, produktName, hersteller, barcode, energie, kohlenhydrate, fett, proteine, ballastStoffe, consumed, meal);
+            Intent intent = new Intent(AddProductDetails.this, MainActivity.class);
+            startActivity(intent);
+        }
+
     }
 }
