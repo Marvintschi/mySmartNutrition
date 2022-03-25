@@ -237,6 +237,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
+            android:backgroundTint="#FFFFFF"
             android:inputType="number"
             android:textColor="@color/white"
             android:textSize="17sp" />
@@ -274,6 +275,8 @@
             android:layout_marginTop="15dp"
             android:layout_marginBottom="15dp"
             android:layout_weight="1"
+            android:backgroundTint="#FFFFFF"
+            android:foregroundTint="#FFFFFF"
             android:textAlignment="viewEnd"
             android:textColor="@color/white"
             android:textSize="17sp" />
@@ -288,5 +291,6 @@
         android:layout_marginVertical="20dp"
         android:background="@drawable/round_button"
         android:textColor="@color/white"
+        android:onClick="pushData"
         android:text="hinzufügen" />
 </LinearLayout>
