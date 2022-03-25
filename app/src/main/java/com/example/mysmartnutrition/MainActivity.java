@@ -377,7 +377,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         recyclerView4.setLayoutManager(new LinearLayoutManager(MainActivity.this));
 
         int currentKcal = result1 + result2 + result3 + result4;
-        aufgebrauchtKcal.setText(String.valueOf(currentKcal) + " kcal");
+        aufgebrauchtKcal.setText(String.valueOf(currentKcal) + " kcal" +
+                "");
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
