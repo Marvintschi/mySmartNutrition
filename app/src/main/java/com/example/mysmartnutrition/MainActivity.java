@@ -328,7 +328,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         savedDate = String.valueOf(java.time.LocalDate.now());
 
         db = new DatabaseHelper(MainActivity.this);
-        db.insertDataToDB();
+        //db.insertDataToDB();
         product_name_breakfast = new ArrayList<>();
         product_manufacture_breakfast = new ArrayList<>();
         product_kcal_breakfast = new ArrayList<>();

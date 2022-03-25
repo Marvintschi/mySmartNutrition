@@ -51,16 +51,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void insertDataToDB(){
+    public void insertDataToDB(String date, String product_name, String manufacture, String eanCode, String kcal, String carbohydrate, String fat, String protein, String fiber, String consumed, String meal){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("INSERT INTO " + DB_TABLE + " (DATE, PRODUCT_NAME, PRODUCT_MANUFACTURE, EAN_CODE, kcalPER100, carbohydratePER100, fatPER100, proteinPER100, fiberPER100, amountConsumed, meal) " +
-                "VALUES('2022-03-23', 'YFood Vanille', 'YFOOD', '14260556630007', '100', '7', '4', '6', '1', '500', 'Frühstück')");
-        db.execSQL("INSERT INTO " + DB_TABLE + " (DATE, PRODUCT_NAME, PRODUCT_MANUFACTURE, EAN_CODE, kcalPER100, carbohydratePER100, fatPER100, proteinPER100, fiberPER100, amountConsumed, meal) " +
-                "VALUES('2022-03-23', 'Spaghetti', 'Barilla', '8076800195057', '359', '71', '2', '13', '3', '85', 'Mittagessen')");
-        db.execSQL("INSERT INTO " + DB_TABLE + " (DATE, PRODUCT_NAME, PRODUCT_MANUFACTURE, EAN_CODE, kcalPER100, carbohydratePER100, fatPER100, proteinPER100, fiberPER100, amountConsumed, meal) " +
-                "VALUES('2022-03-23', 'Joghurt mit Kokos', 'Alpro', '5411188119098', '55', '2', '3', '4', '1', '500', 'Abendessen')");
-        db.execSQL("INSERT INTO " + DB_TABLE + " (DATE, PRODUCT_NAME, PRODUCT_MANUFACTURE, EAN_CODE, kcalPER100, carbohydratePER100, fatPER100, proteinPER100, fiberPER100, amountConsumed, meal) " +
-                "VALUES('2022-03-23', 'Twix', 'Mars', '5000159459228', '495', '65', '24', '4', '1', '25', 'Snack')");
+                "VALUES('" + date + "', '" + product_name + "', '" + manufacture + "', '" + eanCode + "', '" + kcal + "', '" + carbohydrate + "', '" + fat + "', '" + protein + "', '" + fiber + "', '" + consumed + "', '" + meal + "')");
+
     }
 
 

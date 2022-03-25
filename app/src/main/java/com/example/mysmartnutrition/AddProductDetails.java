@@ -7,13 +7,9 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.Adapter;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.SimpleAdapter;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +41,7 @@ public class AddProductDetails extends AppCompatActivity {
 
     private ProgressDialog progressDialog;
 
+    String savedDate = String.valueOf(java.time.LocalDate.now());
 
 
     public void CreateURL() {
@@ -70,44 +67,15 @@ public class AddProductDetails extends AppCompatActivity {
         tvProteine = findViewById(R.id.proteine);
         tvBallaststoffe = findViewById(R.id.ballaststoffe);
         tvMenge = findViewById(R.id.menge);
-
-        Spinner staticSpinner = (Spinner) findViewById(R.id.mahlzeitangabe);
-
-        // Create an ArrayAdapter using the string array and a default spinner
-        ArrayAdapter<CharSequence> staticAdapter = ArrayAdapter.createFromResource(this, R.array.Mahlzeiten,
-                        android.R.layout.simple_spinner_item);
-
-        // Specify the layout to use when the list of choices appears
-        staticAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        // Apply the adapter to the spinner
-        staticSpinner.setAdapter(staticAdapter);
-
-        Spinner mahlzeitAngabe = (Spinner) findViewById(R.id.mahlzeitangabe);
-
-        String[] items = new String[] { "Frühstück", "Mittagessen", "Abendessen", "Snacks" };
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, items);
-
-        mahlzeitAngabe.setAdapter(adapter);
-
-        mahlzeitAngabe.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view,
-                                       int position, long id) {
-                Log.v("item", (String) parent.getItemAtPosition(position));
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // TODO Auto-generated method stub
-            }
-        });
+        tvPortionen = findViewById(R.id.portionen);
+        tvPortionsgroesse = findViewById(R.id.portionsgroesse);
+        tvMahlzeitangabe = findViewById(R.id.mahlzeitangabe);
 
         new getData().execute();
 
     }
+
+
 
     class getData extends AsyncTask<String, Void, JSONObject> {
 
@@ -233,5 +201,13 @@ public class AddProductDetails extends AppCompatActivity {
             tvMenge.setText(menge);
 
         }
+    }
+
+    public void pushData(View view){
+        DatabaseHelper db;
+        db = new DatabaseHelper(AddProductDetails.this);
+        db.insertDataToDB(savedDate, produktName, hersteller, barcode, energie, kohlenhydrate, fett, proteine, ballastStoffe, "100", "Frühstück");
+        Intent intent = new Intent(AddProductDetails.this, MainActivity.class);
+        startActivity(intent);
     }
 }
