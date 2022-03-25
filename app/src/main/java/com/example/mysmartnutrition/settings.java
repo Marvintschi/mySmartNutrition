@@ -2,9 +2,11 @@ package com.example.mysmartnutrition;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.sql.Connection;
@@ -15,6 +17,8 @@ public class settings extends AppCompatActivity {
 
     Button btn1;
 
+    TextView tvUserID;
+
     Connection connection;
     String ConnectionResult = "";
     String a;
@@ -24,7 +28,12 @@ public class settings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        btn1 = (Button) findViewById(R.id.save_goals);
+        tvUserID = findViewById(R.id.user_id_tv);
+        btn1 = findViewById(R.id.save_goals);
+
+
+        SharedPreferences sharedPreferences = getSharedPreferences(MainActivity.SHARED_PREFS, MODE_PRIVATE);
+        tvUserID.setText(sharedPreferences.getString(MainActivity.USER_ID, "Error"));
     }
 
 

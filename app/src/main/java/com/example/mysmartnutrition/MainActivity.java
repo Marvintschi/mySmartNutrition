@@ -1,6 +1,5 @@
 package com.example.mysmartnutrition;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -32,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import org.json.JSONException;
@@ -53,131 +53,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private int stepsOfToday = 0;
     public int dayStep = 0;
     public int counterReading = 0;
-    /* private List<Integer> savedStepsList = new List<Integer>() {
-        @Override
-        public int size() {
-            return 0;
-        }
-
-        @Override
-        public boolean isEmpty() {
-            return false;
-        }
-
-        @Override
-        public boolean contains(@Nullable Object o) {
-            return false;
-        }
-
-        @NonNull
-        @Override
-        public Iterator<Integer> iterator() {
-            return null;
-        }
-
-        @NonNull
-        @Override
-        public Object[] toArray() {
-            return new Object[0];
-        }
-
-        @NonNull
-        @Override
-        public <T> T[] toArray(@NonNull T[] a) {
-            return null;
-        }
-
-        @Override
-        public boolean add(Integer integer) {
-            return false;
-        }
-
-        @Override
-        public boolean remove(@Nullable Object o) {
-            return false;
-        }
-
-        @Override
-        public boolean containsAll(@NonNull Collection<?> c) {
-            return false;
-        }
-
-        @Override
-        public boolean addAll(@NonNull Collection<? extends Integer> c) {
-            return false;
-        }
-
-        @Override
-        public boolean addAll(int index, @NonNull Collection<? extends Integer> c) {
-            return false;
-        }
-
-        @Override
-        public boolean removeAll(@NonNull Collection<?> c) {
-            return false;
-        }
-
-        @Override
-        public boolean retainAll(@NonNull Collection<?> c) {
-            return false;
-        }
-
-        @Override
-        public void clear() {
-
-        }
-
-        @Override
-        public Integer get(int index) {
-            return null;
-        }
-
-        @Override
-        public Integer set(int index, Integer element) {
-            return null;
-        }
-
-        @Override
-        public void add(int index, Integer element) {
-
-        }
-
-        @Override
-        public Integer remove(int index) {
-            return null;
-        }
-
-        @Override
-        public int indexOf(@Nullable Object o) {
-            return 0;
-        }
-
-        @Override
-        public int lastIndexOf(@Nullable Object o) {
-            return 0;
-        }
-
-        @NonNull
-        @Override
-        public ListIterator<Integer> listIterator() {
-            return null;
-        }
-
-        @NonNull
-        @Override
-        public ListIterator<Integer> listIterator(int index) {
-            return null;
-        }
-
-        @NonNull
-        @Override
-        public List<Integer> subList(int fromIndex, int toIndex) {
-            return null;
-        }
-    }; */
 
     public String savedDate;
 
+    public static final String SHARED_PREFS = "sharedPrefs";
+    public static final String USER_ID = "userID";
+
+    static Random random = new Random();
+    public final static int UserID = random.nextInt(10000000);
 
     DatabaseHelper db;
 
@@ -190,122 +73,23 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     CustomAdapter customAdapter, Adapter, Adapter2, Adapter3;
 
-    public SharedPreferences sharedPreferences = new SharedPreferences() {
-        @Override
-        public Map<String, ?> getAll() {
-            return null;
-        }
-
-        @Nullable
-        @Override
-        public String getString(String key, @Nullable String defValue) {
-            return null;
-        }
-
-        @Nullable
-        @Override
-        public Set<String> getStringSet(String key, @Nullable Set<String> defValues) {
-            return null;
-        }
-
-        @Override
-        public int getInt(String key, int defValue) {
-            return 0;
-        }
-
-        @Override
-        public long getLong(String key, long defValue) {
-            return 0;
-        }
-
-        @Override
-        public float getFloat(String key, float defValue) {
-            return 0;
-        }
-
-        @Override
-        public boolean getBoolean(String key, boolean defValue) {
-            return false;
-        }
-
-        @Override
-        public boolean contains(String key) {
-            return false;
-        }
-
-        @Override
-        public Editor edit() {
-            return null;
-        }
-
-        @Override
-        public void registerOnSharedPreferenceChangeListener(OnSharedPreferenceChangeListener listener) {
-
-        }
-
-        @Override
-        public void unregisterOnSharedPreferenceChangeListener(OnSharedPreferenceChangeListener listener) {
-
-        }
-    };
-    public SharedPreferences.Editor editor = new SharedPreferences.Editor() {
-        @Override
-        public SharedPreferences.Editor putString(String key, @Nullable String value) {
-            return null;
-        }
-
-        @Override
-        public SharedPreferences.Editor putStringSet(String key, @Nullable Set<String> values) {
-            return null;
-        }
-
-        @Override
-        public SharedPreferences.Editor putInt(String key, int value) {
-            return null;
-        }
-
-        @Override
-        public SharedPreferences.Editor putLong(String key, long value) {
-            return null;
-        }
-
-        @Override
-        public SharedPreferences.Editor putFloat(String key, float value) {
-            return null;
-        }
-
-        @Override
-        public SharedPreferences.Editor putBoolean(String key, boolean value) {
-            return null;
-        }
-
-        @Override
-        public SharedPreferences.Editor remove(String key) {
-            return null;
-        }
-
-        @Override
-        public SharedPreferences.Editor clear() {
-            return null;
-        }
-
-        @Override
-        public boolean commit() {
-            return false;
-        }
-
-        @Override
-        public void apply() {
-
-        }
-    };
-
     int result1, result2, result3, result4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        if (sharedPreferences.getString("UserID", null) == null) {
+            System.out.println(sharedPreferences.getString(USER_ID, null));
+        } else {
+            editor.putString(USER_ID, String.valueOf(UserID));
+            editor.commit();
+        }
+
 
         if(ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_DENIED){ //ask for permission
@@ -377,8 +161,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         recyclerView4.setLayoutManager(new LinearLayoutManager(MainActivity.this));
 
         int currentKcal = result1 + result2 + result3 + result4;
-        aufgebrauchtKcal.setText(String.valueOf(currentKcal) + " kcal" +
-                "");
+        aufgebrauchtKcal.setText(String.valueOf(currentKcal) + " kcal" + "");
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
