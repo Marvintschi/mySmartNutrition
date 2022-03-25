@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private Button addBreakfast;
     private Button addLunch;
     private Button addDinner;
-    private TextView tvStepCounter , totalBreakfast, totalLunch, totalDinner, totalSnack, aufgebrauchtKcal;
+    private TextView tvStepCounter , totalBreakfast, totalLunch, totalDinner, totalSnack, aufgebrauchtKcal, tvTageswertLimit;
 
     private SensorManager sensorManager;
     private Sensor stepCounterSensor;
@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
+        // TODO hier nochmal mit der final variable USER_ID als key testen!!!
         if (sharedPreferences.getString("UserID", null) == null) {
             System.out.println(sharedPreferences.getString(USER_ID, null));
         } else {
@@ -90,6 +91,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             editor.commit();
         }
 
+        if (sharedPreferences.getString(settings.KCAL_GOAL, null) == null) {
+            tvTageswertLimit.setText(sharedPreferences.getString(settings.KCAL_GOAL, "1000"));
+        }
 
         if(ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_DENIED){ //ask for permission
@@ -100,12 +104,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 
-        totalBreakfast = (TextView) findViewById(R.id.gesamtwert_breakfast);
-        totalLunch = (TextView) findViewById(R.id.gesamtwert_lunch);
-        totalDinner = (TextView) findViewById(R.id.gesamtwert_dinner);
-        totalSnack = (TextView) findViewById(R.id.gesamtwert_snacks);
+        totalBreakfast = findViewById(R.id.gesamtwert_breakfast);
+        totalLunch = findViewById(R.id.gesamtwert_lunch);
+        totalDinner = findViewById(R.id.gesamtwert_dinner);
+        totalSnack = findViewById(R.id.gesamtwert_snacks);
 
-        aufgebrauchtKcal = (TextView) findViewById(R.id.tageswert_aufgebraucht);
+        // TODO Werden möglicherweise geändert
+        aufgebrauchtKcal = findViewById(R.id.tageswert_aufgebraucht);
+        tvTageswertLimit = findViewById(R.id.tageswert_limit);
 
         addButton = findViewById(R.id.fab);
         addBreakfast = findViewById(R.id.add_product_breakfast);

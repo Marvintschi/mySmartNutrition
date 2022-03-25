@@ -43,7 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:text="Ziele:"
+        android:text="Ziele pro Tag"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         android:textStyle="bold" />
@@ -75,7 +75,8 @@
             android:ems="10"
             android:inputType="number"
             android:textColor="#FFFFFF"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:text=""/>
 
     </LinearLayout>
 
@@ -106,7 +107,8 @@
             android:ems="10"
             android:inputType="number"
             android:textColor="#FFFFFF"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:text=""/>
 
     </LinearLayout>
 
@@ -138,7 +140,8 @@
             android:ems="9"
             android:inputType="numberDecimal"
             android:textColor="#FFFFFF"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:text=""/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -154,7 +157,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:background="@color/secondaryMain"
+        android:background="@drawable/round_button"
         android:text="Bestätigen"
         android:layout_margin="10dp"
         android:textColor="@color/white"
