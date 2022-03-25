@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private Button addBreakfast;
     private Button addLunch;
     private Button addDinner;
-    private TextView tvStepCounter;
+    private TextView tvStepCounter , totalBreakfast, totalLunch, totalDinner, totalSnack, aufgebrauchtKcal;
 
     private SensorManager sensorManager;
     private Sensor stepCounterSensor;
@@ -300,6 +300,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
     };
 
+    int result1, result2, result3, result4;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -313,6 +315,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+
+        totalBreakfast = (TextView) findViewById(R.id.gesamtwert_breakfast);
+        totalLunch = (TextView) findViewById(R.id.gesamtwert_lunch);
+        totalDinner = (TextView) findViewById(R.id.gesamtwert_dinner);
+        totalSnack = (TextView) findViewById(R.id.gesamtwert_snacks);
+
+        aufgebrauchtKcal = (TextView) findViewById(R.id.tageswert_aufgebraucht);
 
         addButton = findViewById(R.id.fab);
         addBreakfast = findViewById(R.id.add_product_breakfast);
@@ -346,6 +355,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         product_kcal_snacks = new ArrayList<>();
 
 
+
         storeDataInArrays("Frühstück", savedDate);
         customAdapter = new CustomAdapter(MainActivity.this, product_name_breakfast, product_manufacture_breakfast, product_kcal_breakfast);
         recyclerView.setAdapter(customAdapter);
@@ -365,6 +375,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         Adapter3 = new CustomAdapter(MainActivity.this, product_name_snacks, product_manufacture_snacks, product_kcal_snacks);
         recyclerView4.setAdapter(Adapter3);
         recyclerView4.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+
+        int currentKcal = result1 + result2 + result3 + result4;
+        aufgebrauchtKcal.setText(String.valueOf(currentKcal));
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -507,6 +520,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     public void storeDataInArrays(String meal, String date){
         Cursor cursor = db.viewData(meal, date);
+        result1 = 0;
+
 
         if(cursor.getCount() == 0){
             // Toast.makeText(this, "No data to show", Toast.LENGTH_SHORT).show();
@@ -517,14 +532,17 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 float kcal = Float.valueOf(cursor.getString(4));
                 float amountConsumed = Float.valueOf(cursor.getString(9));
                 float kcalTotal = Math.round(amountConsumed * (kcal/100));
-                int result = (int) kcalTotal;
-                product_kcal_breakfast.add(String.valueOf(result));
+                result1 = result1 + (int) kcalTotal;
+                int kcalSingle = (int) kcalTotal;
+                product_kcal_breakfast.add(String.valueOf(kcalSingle));
             }
+            totalBreakfast.setText(String.valueOf(result1) + " kcal");
         }
     }
 
     public void storeDataInArrays1(String meal, String date){
         Cursor cursor = db.viewData(meal, date);
+        result2 = 0;
 
         if(cursor.getCount() == 0){
             // Toast.makeText(this, "No data to show", Toast.LENGTH_SHORT).show();
@@ -535,14 +553,17 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 float kcal = Float.valueOf(cursor.getString(4));
                 float amountConsumed = Float.valueOf(cursor.getString(9));
                 float kcalTotal = Math.round(amountConsumed * (kcal/100));
-                int result = (int) kcalTotal;
-                product_kcal_lunch.add(String.valueOf(result));
+                result2 = result2 + (int) kcalTotal;
+                int kcalSingle = (int) kcalTotal;
+                product_kcal_lunch.add(String.valueOf(kcalSingle));
             }
+            totalLunch.setText(String.valueOf(result2) + " kcal");
         }
     }
 
     public void storeDataInArrays2(String meal, String date){
         Cursor cursor = db.viewData(meal, date);
+        result3 = 0;
 
         if(cursor.getCount() == 0){
             // Toast.makeText(this, "No data to show", Toast.LENGTH_SHORT).show();
@@ -553,14 +574,17 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 float kcal = Float.valueOf(cursor.getString(4));
                 float amountConsumed = Float.valueOf(cursor.getString(9));
                 float kcalTotal = Math.round(amountConsumed * (kcal/100));
-                int result = (int) kcalTotal;
-                product_kcal_dinner.add(String.valueOf(result));
+                result3 = result3 + (int) kcalTotal;
+                int kcalSingle = (int) kcalTotal;
+                product_kcal_dinner.add(String.valueOf(kcalSingle));
             }
+            totalDinner.setText(String.valueOf(result3) + " kcal");
         }
     }
 
     public void storeDataInArrays3(String meal, String date){
         Cursor cursor = db.viewData(meal, date);
+        result4 = 0;
 
         if(cursor.getCount() == 0){
             // Toast.makeText(this, "No data to show", Toast.LENGTH_SHORT).show();
@@ -571,9 +595,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 float kcal = Float.valueOf(cursor.getString(4));
                 float amountConsumed = Float.valueOf(cursor.getString(9));
                 float kcalTotal = Math.round(amountConsumed * (kcal/100));
-                int result = (int) kcalTotal;
-                product_kcal_snacks.add(String.valueOf(result));
+                result4 = result4 + (int) kcalTotal;
+                int kcalSingle = (int) kcalTotal;
+                product_kcal_snacks.add(String.valueOf(kcalSingle));
             }
+            totalSnack.setText(String.valueOf(result4) + " kcal");
         }
     }
 
