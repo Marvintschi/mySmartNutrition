@@ -27,27 +27,5 @@ public class settings extends AppCompatActivity {
         btn1 = (Button) findViewById(R.id.save_goals);
     }
 
-    public void GetTextFromSQL(View view){
-        try{
-            ConnectionHelper connectionHelper = new ConnectionHelper();
-            connection = connectionHelper.connectionclass();
-            if(connection!=null){
-                String query = "SELECT * FROM User WHERE User_ID = '12345678'";
-                Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery(query);
-
-                while (resultSet.next()){
-                    a = resultSet.getString(3);
-                    Toast.makeText(getApplicationContext(), a + " result", Toast.LENGTH_SHORT).show();
-                }
-            }
-            else{
-                ConnectionResult = "Check Connection";
-            }
-        }catch (Exception e){
-
-        }
-
-    }
 
 }
