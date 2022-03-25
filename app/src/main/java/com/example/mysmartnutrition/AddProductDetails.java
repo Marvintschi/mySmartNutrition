@@ -93,9 +93,6 @@ public class AddProductDetails extends AppCompatActivity {
 
 
         new getData().execute();
-
-
-
     }
 
 
