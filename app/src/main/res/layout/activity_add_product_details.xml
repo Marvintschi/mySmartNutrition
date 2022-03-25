@@ -283,6 +283,7 @@
             android:textAlignment="viewEnd"
             android:textColor="@color/white"
             android:backgroundTint="@color/foreground_2"
+            android:foregroundTint="@color/foreground_2"
             android:textSize="17sp" />
 
     </LinearLayout>

@@ -24,7 +24,7 @@ public class settings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        btn1 = (Button) findViewById(R.id.button2);
+        btn1 = (Button) findViewById(R.id.save_goals);
     }
 
     public void GetTextFromSQL(View view){
