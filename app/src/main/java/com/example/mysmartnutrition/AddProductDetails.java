@@ -229,6 +229,9 @@ public class AddProductDetails extends AppCompatActivity {
         DatabaseHelper db;
         db = new DatabaseHelper(AddProductDetails.this);
         String consumed = String.valueOf(amountConsumed.getText().toString());
+        if(consumed == ""){
+            consumed = "0";
+        }
         String meal = spinner.getSelectedItem().toString();
         db.insertDataToDB(savedDate, produktName, hersteller, barcode, energie, kohlenhydrate, fett, proteine, ballastStoffe, consumed, meal);
         Intent intent = new Intent(AddProductDetails.this, MainActivity.class);
