@@ -295,5 +295,6 @@
         android:layout_marginVertical="30dp"
         android:background="@drawable/round_button"
         android:textColor="@color/white"
+        android:onClick="pushData"
         android:text="hinzufügen" />
 </LinearLayout>
