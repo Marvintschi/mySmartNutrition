@@ -123,7 +123,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginVertical="3dp"
-                        android:layout_weight="1"
+                        android:layout_weight="0.93"
                         android:text="0 kcal"
                         android:textColor="@color/white"
                         android:textSize="20sp" />
@@ -162,7 +162,7 @@
                 <com.anychart.AnyChartView
                     android:id="@+id/nutrition_chart_view"
                     android:layout_width="match_parent"
-                    android:layout_height="400dp"
+                    android:layout_height="450dp"
                     android:layout_gravity="center" />
 
                 <LinearLayout
