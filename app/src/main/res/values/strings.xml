@@ -2,7 +2,7 @@
     <string name="app_name">mySmartNutrition</string>
     <string name="qr_button_text">Mit Barcode scannen</string>
     <string name="header_text">Tagesübersicht</string>
-    <string name="tageslimit_header">Heutiges Tageslimit</string>
+    <string name="tageslimit_header">Tagesziel kcal</string>
     <string name="aufgebrauchte_kalorien_header">Aufgebraucht</string>
 
     <string-array name="Mahlzeiten">

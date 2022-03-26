@@ -145,15 +145,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
-        // TODO hier nochmal mit der final variable USER_ID als key testen!!!
-        if (sharedPreferences.getString(USER_ID, "") != null) {
-            System.out.println(sharedPreferences.getString(USER_ID, ""));
+        if (sharedPreferences.getString(USER_ID, null) != null) {
+            // hier soll nichts getan werden
         } else {
             editor.putString(USER_ID, String.valueOf(UserID));
             editor.commit();
         }
 
-        tvTageswertLimit.setText(sharedPreferences.getString(settings.KCAL_GOAL, "1000"));
+        tvTageswertLimit.setText(sharedPreferences.getString(settings.KCAL_GOAL + " kcal", "1000 kcal"));
 
 
         storeDataInArrays("Frühstück", savedDate);
@@ -220,10 +219,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
 
         // TODO optimize later
-        // setupNutritionChart();
-        // TODO delete below code later (already in above metbod)
-        nutritionChart.setBackgroundColor("#010A43");
-
+        setupNutritionChart();
 
         SQLiteDatabase database = openOrCreateDatabase("mysmartnutrition.db", MODE_PRIVATE, null);
         database.execSQL("create table if not exists test3(date text, dayStep integer, systemCounter integer)");
@@ -412,13 +408,16 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         Pie pie = AnyChart.pie();
         List<DataEntry> dataEntries = new ArrayList<>();
 
-        //for (int i = 0; i > "hier variablen eingeben"; i++) {
-        //    dataEntries.add(new ValueDataEntry("hier alle Daten zum anzeigen eingeben"));
-        // }
+        String[] beispielWerte = {" kcal", " fett", " Kohlenhydrate", " Eiweiß", " Ballaststoffe"};
+        int[] beispielZahlen = {500, 300, 350, 75, 35};
+
+        for (int i = 0; i < beispielWerte.length; i++) {
+            dataEntries.add(new ValueDataEntry(beispielWerte[i], beispielZahlen[i]));
+        }
 
         pie.data(dataEntries);
-        pie.title("Heutige Daten");
-        nutritionChart.setBackgroundColor("#010A43");
+        pie.title("Nährwerte des Tages");
         nutritionChart.setChart(pie);
+        nutritionChart.setBackgroundColor("#010A43");
     }
 }
