@@ -13,6 +13,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -25,11 +26,17 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.anychart.AnyChart;
+import com.anychart.AnyChartView;
+import com.anychart.chart.common.dataentry.DataEntry;
+import com.anychart.chart.common.dataentry.ValueDataEntry;
+import com.anychart.charts.Pie;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -45,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private Button addLunch;
     private Button addDinner;
     private TextView tvStepCounter , totalBreakfast, totalLunch, totalDinner, totalSnack, aufgebrauchtKcal, tvTageswertLimit;
+    private AnyChartView nutritionChart;
 
     private SensorManager sensorManager;
     private Sensor stepCounterSensor;
@@ -61,6 +69,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     static Random random = new Random();
     public final static int UserID = random.nextInt(10000000);
+
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     DatabaseHelper db;
 
@@ -79,21 +90,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        // TODO hier nochmal mit der final variable USER_ID als key testen!!!
-        if (sharedPreferences.getString("UserID", null) == null) {
-            System.out.println(sharedPreferences.getString(USER_ID, null));
-        } else {
-            editor.putString(USER_ID, String.valueOf(UserID));
-            editor.commit();
-        }
-
-        if (sharedPreferences.getString(settings.KCAL_GOAL, null) == null) {
-            tvTageswertLimit.setText(sharedPreferences.getString(settings.KCAL_GOAL, "1000"));
-        }
 
         if(ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_DENIED){ //ask for permission
@@ -118,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         addLunch = findViewById(R.id.add_product_lunch);
         addDinner = findViewById(R.id.add_product_dinner);
         tvStepCounter = findViewById(R.id.stepCounter);
+        nutritionChart = findViewById(R.id.nutrition_chart_view);
 
         recyclerView = findViewById(R.id.lvContact);
         recyclerView2 = findViewById(R.id.lvContact2);
@@ -144,6 +141,19 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         product_manufacture_snacks = new ArrayList<>();
         product_kcal_snacks = new ArrayList<>();
 
+
+        sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+
+        // TODO hier nochmal mit der final variable USER_ID als key testen!!!
+        if (sharedPreferences.getString(USER_ID, "") != null) {
+            System.out.println(sharedPreferences.getString(USER_ID, ""));
+        } else {
+            editor.putString(USER_ID, String.valueOf(UserID));
+            editor.commit();
+        }
+
+        tvTageswertLimit.setText(sharedPreferences.getString(settings.KCAL_GOAL, "1000"));
 
 
         storeDataInArrays("Frühstück", savedDate);
@@ -209,6 +219,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             isStepCounterPresent = false;
         }
 
+        // TODO optimize later
+        // setupNutritionChart();
+        // TODO delete below code later (already in above metbod)
+        nutritionChart.setBackgroundColor("#010A43");
+
 
         SQLiteDatabase database = openOrCreateDatabase("mysmartnutrition.db", MODE_PRIVATE, null);
         database.execSQL("create table if not exists test3(date text, dayStep integer, systemCounter integer)");
@@ -227,8 +242,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         Intent intent = new Intent(MainActivity.this, settings.class);
         startActivity(intent);
     }
-
-
 
     public void pushStepsToDB(int dayStep, int stepCount, String date){
         SQLiteDatabase database = openOrCreateDatabase("mysmartnutrition.db", MODE_PRIVATE, null);
@@ -298,6 +311,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         if(sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER) != null) {
             sensorManager.registerListener(this, stepCounterSensor, SensorManager.SENSOR_DELAY_UI);
         }
+        tvTageswertLimit.setText(sharedPreferences.getString(settings.KCAL_GOAL, "2500"));
     }
 
     @Override
@@ -393,5 +407,18 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
     }
 
+    // TODO Hier noch einige Änderungen notwendig
+    public void setupNutritionChart() {
+        Pie pie = AnyChart.pie();
+        List<DataEntry> dataEntries = new ArrayList<>();
 
+        //for (int i = 0; i > "hier variablen eingeben"; i++) {
+        //    dataEntries.add(new ValueDataEntry("hier alle Daten zum anzeigen eingeben"));
+        // }
+
+        pie.data(dataEntries);
+        pie.title("Heutige Daten");
+        nutritionChart.setBackgroundColor("#010A43");
+        nutritionChart.setChart(pie);
+    }
 }
