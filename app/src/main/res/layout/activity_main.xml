@@ -163,9 +163,7 @@
                     android:id="@+id/nutrition_chart_view"
                     android:layout_width="match_parent"
                     android:layout_height="400dp"
-                    android:layout_gravity="center"
-                    android:backgroundTint="@color/background"
-                    android:background="@color/background"/>
+                    android:layout_gravity="center" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

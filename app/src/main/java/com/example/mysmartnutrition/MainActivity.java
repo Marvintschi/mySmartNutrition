@@ -418,6 +418,5 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         pie.data(dataEntries);
         pie.title("Nährwerte des Tages");
         nutritionChart.setChart(pie);
-        nutritionChart.setBackgroundColor("#010A43");
     }
 }
