@@ -95,7 +95,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     CustomAdapter customAdapter, Adapter, Adapter2, Adapter3;
 
+    //kcal results
     int result1, result2, result3, result4;
+    //nährwerte results
+    float resultCarb, resultFiber, resultFat, resultProtein;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -346,6 +349,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 float kcal = Float.valueOf(cursor.getString(4));
                 float amountConsumed = Float.valueOf(cursor.getString(9));
                 float kcalTotal = Math.round(amountConsumed * (kcal/100));
+
+                resultCarb = resultCarb + Float.valueOf(cursor.getString(5));
+                resultFat = resultFat + Float.valueOf(cursor.getString(6));
+                resultProtein = resultProtein + Float.valueOf(cursor.getString(7));
+                resultFiber = resultFiber + Float.valueOf(cursor.getString(8));
+
                 result1 = result1 + (int) kcalTotal;
                 int kcalSingle = (int) kcalTotal;
                 product_kcal_breakfast.add(String.valueOf(kcalSingle));
@@ -368,6 +377,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 float amountConsumed = Float.valueOf(cursor.getString(9));
                 float kcalTotal = Math.round(amountConsumed * (kcal/100));
                 result2 = result2 + (int) kcalTotal;
+
+                resultCarb = resultCarb + Float.valueOf(cursor.getString(5));
+                resultFat = resultFat + Float.valueOf(cursor.getString(6));
+                resultProtein = resultProtein + Float.valueOf(cursor.getString(7));
+                resultFiber = resultFiber + Float.valueOf(cursor.getString(8));
+
                 int kcalSingle = (int) kcalTotal;
                 product_kcal_lunch.add(String.valueOf(kcalSingle));
             }
@@ -389,6 +404,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 float amountConsumed = Float.valueOf(cursor.getString(9));
                 float kcalTotal = Math.round(amountConsumed * (kcal/100));
                 result3 = result3 + (int) kcalTotal;
+
+                resultCarb = resultCarb + Float.valueOf(cursor.getString(5));
+                resultFat = resultFat + Float.valueOf(cursor.getString(6));
+                resultProtein = resultProtein + Float.valueOf(cursor.getString(7));
+                resultFiber = resultFiber + Float.valueOf(cursor.getString(8));
+
                 int kcalSingle = (int) kcalTotal;
                 product_kcal_dinner.add(String.valueOf(kcalSingle));
             }
@@ -410,6 +431,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 float amountConsumed = Float.valueOf(cursor.getString(9));
                 float kcalTotal = Math.round(amountConsumed * (kcal/100));
                 result4 = result4 + (int) kcalTotal;
+
+                resultCarb = resultCarb + Float.valueOf(cursor.getString(5));
+                resultFat = resultFat + Float.valueOf(cursor.getString(6));
+                resultProtein = resultProtein + Float.valueOf(cursor.getString(7));
+                resultFiber = resultFiber + Float.valueOf(cursor.getString(8));
+
                 int kcalSingle = (int) kcalTotal;
                 product_kcal_snacks.add(String.valueOf(kcalSingle));
             }
@@ -422,8 +449,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         Pie pie = AnyChart.pie();
         List<DataEntry> dataEntries = new ArrayList<>();
 
-        String[] beispielWerte = {" kcal", " fett", " Kohlenhydrate", " Eiweiß", " Ballaststoffe"};
-        int[] beispielZahlen = {500, 300, 350, 75, 35};
+        String[] beispielWerte = {" Kohlenhydrate", " Ballaststoffe", " Fett", " Eiweiß"};
+        int[] beispielZahlen = {Math.round(resultCarb), Math.round(resultFiber), Math.round(resultFat), Math.round(resultProtein)};
 
         for (int i = 0; i < beispielWerte.length; i++) {
             dataEntries.add(new ValueDataEntry(beispielWerte[i], beispielZahlen[i]));

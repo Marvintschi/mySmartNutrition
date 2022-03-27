@@ -274,7 +274,8 @@ public class AddProductDetails extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        progressDialog2.dismiss();
+                        progressDialog2
+                                .dismiss();
 
                         try {
                             JSONObject jsonObject = new JSONObject(response);
