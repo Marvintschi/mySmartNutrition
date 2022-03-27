@@ -1,9 +1,11 @@
 package com.example.mysmartnutrition;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -20,6 +22,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.FirstPartyScopes;
 
 import org.json.JSONArray;
@@ -39,7 +48,9 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AddProductDetails extends AppCompatActivity {
 
@@ -54,6 +65,9 @@ public class AddProductDetails extends AppCompatActivity {
 
     String savedDate = String.valueOf(java.time.LocalDate.now());
     String consumed;
+    String UserID;
+
+    ProgressDialog progressDialog2;
 
 
     public void CreateURL() {
@@ -92,8 +106,14 @@ public class AddProductDetails extends AppCompatActivity {
 
         spinner.setAdapter(adapter);
 
+        SharedPreferences sharedPreferences = getSharedPreferences(MainActivity.SHARED_PREFS, MODE_PRIVATE);
+        UserID =sharedPreferences.getString(MainActivity.USER_ID, "Error");
+
 
         new getData().execute();
+
+        progressDialog2 = new ProgressDialog(this);
+
     }
 
 
@@ -239,5 +259,63 @@ public class AddProductDetails extends AppCompatActivity {
             startActivity(intent);
         }
 
+        saveDataToOnlineDB();
+
+    }
+
+    public void saveDataToOnlineDB(){
+        String [] dateArray = savedDate.split("-");
+        String savedDateFormatted = dateArray[2] + "." + dateArray[1] + "." + dateArray[0];
+        progressDialog2.setMessage("Übermittle Daten...");
+        progressDialog2.show();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                Constants.URL_GENERATE_FOOD_ENTRY,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        progressDialog2.dismiss();
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            //Toast.makeText(getApplicationContext(), jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getApplicationContext(), error.getMessage(),Toast.LENGTH_SHORT).show();
+                    }
+                }){
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                consumed = amountConsumed.getText().toString();
+                String meal = spinner.getSelectedItem().toString();
+
+                params.put("userID", UserID);
+                params.put("productName", produktName);
+                params.put("productManufacture", hersteller);
+                params.put("eanNumber", barcode);
+                params.put("creationDate", savedDateFormatted); //savedDate with changed Format "YYYY-MM-DD" went to "DD.MM.YYYY"
+                params.put("kcal", energie);
+                params.put("carbohydrates", kohlenhydrate);
+                params.put("fat", fett);
+                params.put("protein", proteine);
+                params.put("fiber", ballastStoffe);
+                params.put("amountConsumed", consumed);
+                params.put("meal", meal);
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
     }
 }
