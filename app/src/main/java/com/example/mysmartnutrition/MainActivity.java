@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,6 +27,13 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.anychart.AnyChart;
 import com.anychart.AnyChartView;
 import com.anychart.chart.common.dataentry.DataEntry;
@@ -35,6 +43,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -74,6 +83,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     SharedPreferences.Editor editor;
 
     DatabaseHelper db;
+    ProgressDialog progressDialog;
+
 
     RecyclerView recyclerView, recyclerView2, recyclerView3, recyclerView4;
 
@@ -97,6 +108,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        progressDialog = new ProgressDialog(this);
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 
@@ -148,6 +161,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         if (sharedPreferences.getString(USER_ID, null) != null) {
             // hier soll nichts getan werden
         } else {
+            checkIfUserIDisAllreadyInUse();
             editor.putString(USER_ID, String.valueOf(UserID));
             editor.commit();
         }
@@ -419,5 +433,46 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         pie.title("Nährwerte des Tages");
         pie.background().fill("#010A43");
         nutritionChart.setChart(pie);
+    }
+
+    public void checkIfUserIDisAllreadyInUse(){
+
+        progressDialog.setMessage("Übermittle Daten...");
+        progressDialog.show();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                Constants.URL_GENERATE_USER,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        progressDialog.dismiss();
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            //Toast.makeText(getApplicationContext(), jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getApplicationContext(), error.getMessage(),Toast.LENGTH_SHORT).show();
+                    }
+                }){
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("userID", String.valueOf(UserID));
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
     }
 }
