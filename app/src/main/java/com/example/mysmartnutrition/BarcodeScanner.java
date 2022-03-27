@@ -27,10 +27,12 @@ public class BarcodeScanner extends AppCompatActivity {
     private BarcodeDetector barcodeDetector;
     private CameraSource cameraSource;
     private static final int REQUEST_CAMERA_PERMISSION = 201;
-    //This class provides methods to play DTMF tones
+    // This class provides methods to play DTMF tones
     private ToneGenerator toneGen1;
     private TextView barcodeText;
     private String barcodeData;
+
+    private Intent intent;
 
 
     @Override
@@ -109,10 +111,14 @@ public class BarcodeScanner extends AppCompatActivity {
                                 // leitet zur nächsten Activity um, wenn ein echter Barcode erkannt wurde
                                 if (barcodeData.length() > 3) {
                                     barcodeText.setText(barcodeData);
-                                    toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
-                                    Intent intent = new Intent(BarcodeScanner.this, AddProductDetails.class);
-                                    intent.putExtra("barcodeData", barcodeData);
-                                    startActivity(intent);
+                                    if (intent == null) {
+                                        toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
+                                        intent = new Intent(BarcodeScanner.this, AddProductDetails.class);
+                                        intent.putExtra("barcodeData", barcodeData);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+
                                 }
                             }
                         }
@@ -126,14 +132,12 @@ public class BarcodeScanner extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        // getSupportActionBar().hide();
         cameraSource.release();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        // getSupportActionBar().hide();  --> experienced crashes with this method
         initialiseDetectorsAndSources();
     }
 }

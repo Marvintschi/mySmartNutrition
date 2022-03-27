@@ -4,10 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,24 +26,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.gms.common.FirstPartyScopes;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.lang.reflect.Array;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
-import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -113,7 +97,6 @@ public class AddProductDetails extends AppCompatActivity {
         new getData().execute();
 
         progressDialog2 = new ProgressDialog(this);
-
     }
 
 
@@ -255,12 +238,10 @@ public class AddProductDetails extends AppCompatActivity {
         else {
             String meal = spinner.getSelectedItem().toString();
             db.insertDataToDB(savedDate, produktName, hersteller, barcode, energie, kohlenhydrate, fett, proteine, ballastStoffe, consumed, meal);
-            Intent intent = new Intent(AddProductDetails.this, MainActivity.class);
-            startActivity(intent);
+            saveDataToOnlineDB();
+            // better than using an intent
+            finish();
         }
-
-        saveDataToOnlineDB();
-
     }
 
     public void saveDataToOnlineDB(){

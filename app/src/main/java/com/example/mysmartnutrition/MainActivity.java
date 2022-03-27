@@ -243,7 +243,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             isStepCounterPresent = false;
         }
 
-        // TODO optimize later
         setupNutritionChart();
 
         SQLiteDatabase database = openOrCreateDatabase("mysmartnutrition.db", MODE_PRIVATE, null);
@@ -454,7 +453,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
     }
 
-    // TODO Hier noch einige Änderungen notwendig
     public void setupNutritionChart() {
         Pie pie = AnyChart.pie();
         List<DataEntry> dataEntries = new ArrayList<>();
