@@ -334,8 +334,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
             tvStepCounter.setText(String.valueOf(dayStep));
 
-            float stepsInKcal = dayStep * 0.035f;
-            tvStepsKcal.setText("ca." + String.format("%.3f", stepsInKcal) + " kcal");
+            int stepsInKcal = (int) ((int) dayStep * 0.035);
+            tvStepsKcal.setText("ca." + String.valueOf(stepsInKcal) + " kcal");
 
             pushStepsToOnlineDB();
         }
