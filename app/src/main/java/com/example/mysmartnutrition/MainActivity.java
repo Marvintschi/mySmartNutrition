@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private Button addBreakfast;
     private Button addLunch;
     private Button addDinner;
-    private TextView tvStepCounter , totalBreakfast, totalLunch, totalDinner, totalSnack, aufgebrauchtKcal, tvTageswertLimit, tvWasserZiel, tvStepsKcal;
+    private TextView tvStepCounter , totalBreakfast, totalLunch, totalDinner, totalSnack, aufgebrauchtKcal, tvTageswertLimit, tvWasserZiel, tvStepsKcal, tvWasserCurrent;
     private AnyChartView nutritionChart;
 
     private SensorManager sensorManager;
@@ -129,7 +129,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         aufgebrauchtKcal = findViewById(R.id.tageswert_aufgebraucht);
         tvTageswertLimit = findViewById(R.id.tageswert_limit);
         tvWasserZiel = findViewById(R.id.wasser_tagesziel);
+        tvWasserCurrent = findViewById(R.id.wasser_bis_tagesziel);
         tvStepsKcal = findViewById(R.id.stepKcal);
+
 
         addButton = findViewById(R.id.fab);
         addBreakfast = findViewById(R.id.add_product_breakfast);
@@ -186,8 +188,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         SQLiteDatabase database = openOrCreateDatabase("mysmartnutrition.db", MODE_PRIVATE, null);
         database.execSQL("create table if not exists test3(date text, dayStep integer, systemCounter integer)");
-        SQLiteDatabase database2 = openOrCreateDatabase("water.db", MODE_PRIVATE, null);
-        database2.execSQL("create table if not exists water(date text, waterDay float)");
+        //SQLiteDatabase database2 = openOrCreateDatabase("water.db", MODE_PRIVATE, null);
+        //database2.execSQL("create table if not exists water(date text, waterDay float)");
 
         storeDataInArrays("Frühstück", savedDate);
         customAdapter = new CustomAdapter(MainActivity.this, product_name_breakfast, product_manufacture_breakfast, product_kcal_breakfast);
@@ -210,12 +212,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         recyclerView4.setLayoutManager(new LinearLayoutManager(MainActivity.this));
 
         //get and show the water
-        try {
-            storeWater(savedDate);
-        }
-        catch (Exception e){
+        storeWater(savedDate);
 
-        }
 
         int currentKcal = result1 + result2 + result3 + result4;
         aufgebrauchtKcal.setText(String.valueOf(currentKcal) + " kcal" + "");
@@ -489,7 +487,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 resultWater = water;
 
             }
-            tvWasserZiel.setText(resultWater + " Liter");
+            tvWasserCurrent.setText(resultWater + " Liter");
         }
     }
 

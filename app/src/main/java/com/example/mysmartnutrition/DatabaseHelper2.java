@@ -24,7 +24,8 @@ public class DatabaseHelper2 extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(CREATE_TABLE);
+        //db.execSQL(CREATE_TABLE);
+
     }
 
     @Override
@@ -45,11 +46,12 @@ public class DatabaseHelper2 extends SQLiteOpenHelper {
     //create method to view Data
     Cursor viewData(String date){
         String query = "SELECT * FROM " + DB_TABLE + " WHERE date = '" + date + "'";
-        SQLiteDatabase db = this.getReadableDatabase();
+
+        SQLiteDatabase db2 = this.getReadableDatabase();
 
         Cursor cursor = null;
-        if(db != null){
-            cursor = db.rawQuery(query, null);
+        if(db2 != null){
+            cursor = db2.rawQuery(query, null);
         }
         return cursor;
     }
