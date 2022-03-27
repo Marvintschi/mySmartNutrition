@@ -65,7 +65,7 @@ public class settings extends AppCompatActivity {
 
         progressDialog = new ProgressDialog(this);
         progressDialog2 = new ProgressDialog(this);
-        progressDialog2.setMessage("Bitte werten...");
+        progressDialog2.setMessage("Bitte warten...");
 
 
         getDataFromOnlineDB();
@@ -99,6 +99,9 @@ public class settings extends AppCompatActivity {
     }
 
     public void saveSettings() {
+        kcalGoal = tvChangeKcal.getText().toString().trim();
+        stepsGoal = tvChangeSteps.getText().toString().trim();
+        waterGoal = tvChangeWater.getText().toString().trim();
         SharedPreferences sharedPreferences = getSharedPreferences(MainActivity.SHARED_PREFS, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
@@ -194,6 +197,7 @@ public class settings extends AppCompatActivity {
         };
 
         RequestHandler.getInstance(this).addToRequestQueue(stringRequest);
+
     }
 
 

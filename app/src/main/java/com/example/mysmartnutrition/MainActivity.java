@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private Button addBreakfast;
     private Button addLunch;
     private Button addDinner;
-    private TextView tvStepCounter , totalBreakfast, totalLunch, totalDinner, totalSnack, aufgebrauchtKcal, tvTageswertLimit, tvWasserZiel;
+    private TextView tvStepCounter , totalBreakfast, totalLunch, totalDinner, totalSnack, aufgebrauchtKcal, tvTageswertLimit;
     private AnyChartView nutritionChart;
 
     private SensorManager sensorManager;
@@ -123,9 +123,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         totalDinner = findViewById(R.id.gesamtwert_dinner);
         totalSnack = findViewById(R.id.gesamtwert_snacks);
 
+        // TODO Werden möglicherweise geändert
         aufgebrauchtKcal = findViewById(R.id.tageswert_aufgebraucht);
         tvTageswertLimit = findViewById(R.id.tageswert_limit);
-        tvWasserZiel = findViewById(R.id.wasser_tagesziel);
 
         addButton = findViewById(R.id.fab);
         addBreakfast = findViewById(R.id.add_product_breakfast);
@@ -171,8 +171,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             editor.commit();
         }
 
-        tvTageswertLimit.setText(sharedPreferences.getString(settings.KCAL_GOAL, "1000 kcal"));
-        tvWasserZiel.setText(sharedPreferences.getString(settings.WATER_GOAL, "2 Liter"));
+        tvTageswertLimit.setText(sharedPreferences.getString(settings.KCAL_GOAL + " kcal", "1000 kcal"));
 
         resultCarb = 0;
         resultProtein = 0;
@@ -334,8 +333,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         if(sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER) != null) {
             sensorManager.registerListener(this, stepCounterSensor, SensorManager.SENSOR_DELAY_UI);
         }
-        tvTageswertLimit.setText(sharedPreferences.getString(settings.KCAL_GOAL, "3000") + " kcal");
-        tvWasserZiel.setText(sharedPreferences.getString(settings.WATER_GOAL, "5") + " L");
+        tvTageswertLimit.setText(sharedPreferences.getString(settings.KCAL_GOAL, "2500"));
     }
 
     @Override
@@ -361,10 +359,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 float amountConsumed = Float.valueOf(cursor.getString(9));
                 float kcalTotal = Math.round(amountConsumed * (kcal/100));
 
-                resultCarb = resultCarb + Float.valueOf(cursor.getString(5));
-                resultFat = resultFat + Float.valueOf(cursor.getString(6));
-                resultProtein = resultProtein + Float.valueOf(cursor.getString(7));
-                resultFiber = resultFiber + Float.valueOf(cursor.getString(8));
+
+                resultCarb = resultCarb + (((Float.valueOf(cursor.getString(5)))/100) * amountConsumed);
+                resultFat = resultFat + (((Float.valueOf(cursor.getString(6)))/100) * amountConsumed);
+                resultProtein = resultProtein + (((Float.valueOf(cursor.getString(7)))/100) * amountConsumed);
+                resultFiber = resultFiber + (((Float.valueOf(cursor.getString(8)))/100) * amountConsumed);
+
 
                 result1 = result1 + (int) kcalTotal;
                 int kcalSingle = (int) kcalTotal;
@@ -389,10 +389,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 float kcalTotal = Math.round(amountConsumed * (kcal/100));
                 result2 = result2 + (int) kcalTotal;
 
-                resultCarb = resultCarb + Float.valueOf(cursor.getString(5));
-                resultFat = resultFat + Float.valueOf(cursor.getString(6));
-                resultProtein = resultProtein + Float.valueOf(cursor.getString(7));
-                resultFiber = resultFiber + Float.valueOf(cursor.getString(8));
+                resultCarb = resultCarb + (((Float.valueOf(cursor.getString(5)))/100) * amountConsumed);
+                resultFat = resultFat + (((Float.valueOf(cursor.getString(6)))/100) * amountConsumed);
+                resultProtein = resultProtein + (((Float.valueOf(cursor.getString(7)))/100) * amountConsumed);
+                resultFiber = resultFiber + (((Float.valueOf(cursor.getString(8)))/100) * amountConsumed);
 
                 int kcalSingle = (int) kcalTotal;
                 product_kcal_lunch.add(String.valueOf(kcalSingle));
@@ -416,10 +416,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 float kcalTotal = Math.round(amountConsumed * (kcal/100));
                 result3 = result3 + (int) kcalTotal;
 
-                resultCarb = resultCarb + Float.valueOf(cursor.getString(5));
-                resultFat = resultFat + Float.valueOf(cursor.getString(6));
-                resultProtein = resultProtein + Float.valueOf(cursor.getString(7));
-                resultFiber = resultFiber + Float.valueOf(cursor.getString(8));
+                resultCarb = resultCarb + (((Float.valueOf(cursor.getString(5)))/100) * amountConsumed);
+                resultFat = resultFat + (((Float.valueOf(cursor.getString(6)))/100) * amountConsumed);
+                resultProtein = resultProtein + (((Float.valueOf(cursor.getString(7)))/100) * amountConsumed);
+                resultFiber = resultFiber + (((Float.valueOf(cursor.getString(8)))/100) * amountConsumed);
 
                 int kcalSingle = (int) kcalTotal;
                 product_kcal_dinner.add(String.valueOf(kcalSingle));
@@ -443,10 +443,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 float kcalTotal = Math.round(amountConsumed * (kcal/100));
                 result4 = result4 + (int) kcalTotal;
 
-                resultCarb = resultCarb + Float.valueOf(cursor.getString(5));
-                resultFat = resultFat + Float.valueOf(cursor.getString(6));
-                resultProtein = resultProtein + Float.valueOf(cursor.getString(7));
-                resultFiber = resultFiber + Float.valueOf(cursor.getString(8));
+                resultCarb = resultCarb + (((Float.valueOf(cursor.getString(5)))/100) * amountConsumed);
+                resultFat = resultFat + (((Float.valueOf(cursor.getString(6)))/100) * amountConsumed);
+                resultProtein = resultProtein + (((Float.valueOf(cursor.getString(7)))/100) * amountConsumed);
+                resultFiber = resultFiber + (((Float.valueOf(cursor.getString(8)))/100) * amountConsumed);
 
                 int kcalSingle = (int) kcalTotal;
                 product_kcal_snacks.add(String.valueOf(kcalSingle));
