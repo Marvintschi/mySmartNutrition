@@ -36,7 +36,7 @@ public class settings extends AppCompatActivity {
     private TextView tvUserID;
     private EditText tvChangeKcal, tvChangeSteps, tvChangeWater;
 
-    ProgressDialog progressDialog;
+    ProgressDialog progressDialog, progressDialog2;
 
     private String kcalGoal, stepsGoal, waterGoal;
 
@@ -64,6 +64,11 @@ public class settings extends AppCompatActivity {
         tvChangeWater.setText(sharedPreferences.getString(WATER_GOAL, ""));
 
         progressDialog = new ProgressDialog(this);
+        progressDialog2 = new ProgressDialog(this);
+        progressDialog2.setMessage("Bitte werten...");
+
+
+        getDataFromOnlineDB();
 
         btnSaveGoals.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,6 +151,49 @@ public class settings extends AppCompatActivity {
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
+    }
+
+    private void getDataFromOnlineDB(){
+
+        progressDialog2.show();
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.POST,
+                Constants.URL_GET_GOALS,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        progressDialog2.dismiss();
+                        try {
+                            JSONObject obj = new JSONObject(response);
+                            if(!obj.getBoolean("error")){
+                                tvChangeWater.setText(obj.getString("goalWater"));
+                                tvChangeSteps.setText(obj.getString("goalSteps"));
+                                tvChangeKcal.setText(obj.getString("goalKcal"));
+                            }else{
+                                Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progressDialog2.dismiss();
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                String userID = tvUserID.getText().toString().trim();
+                params.put("userID", userID);
+                return params;
+            }
+        };
+
+        RequestHandler.getInstance(this).addToRequestQueue(stringRequest);
     }
 
 
