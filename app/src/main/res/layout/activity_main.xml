@@ -197,21 +197,28 @@
                         android:id="@+id/textView24"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_margin="10dp"
+                        android:text="Schritte:"
                         android:textColor="@color/white"
-                        android:textSize="20sp"
-                        android:text="Heute gelaufenen Schritte:" />
+                        android:textSize="20sp" />
 
                     <TextView
                         android:id="@+id/stepCounter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_margin="10dp"
+                        android:text="0"
                         android:textColor="@color/white"
-                        android:textSize="20sp"
-                        android:text="0"/>
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/stepKcal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:text="ca. 300 kcal"
+                        android:textColor="@color/white"
+                        android:textSize="20sp" />
 
                 </LinearLayout>
 
