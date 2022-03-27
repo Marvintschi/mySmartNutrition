@@ -94,11 +94,11 @@ public class AddProductDetails extends AppCompatActivity {
         tvBallaststoffe = findViewById(R.id.ballaststoffe);
         tvMenge = findViewById(R.id.menge);
 
-        amountConsumed = (EditText) findViewById(R.id.editTextNumber);
+        amountConsumed = findViewById(R.id.editTextNumber);
 
         final List<String> items = Arrays.asList("Frühstück", "Mittagessen", "Abendessen", "Snack");
 
-        spinner = (Spinner) findViewById(R.id.mahlzeitangabe);
+        spinner = findViewById(R.id.mahlzeitangabe);
 
         ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), R.layout.my_selected_item, items);
 
@@ -249,7 +249,7 @@ public class AddProductDetails extends AppCompatActivity {
         DatabaseHelper db;
         db = new DatabaseHelper(AddProductDetails.this);
         consumed = amountConsumed.getText().toString();
-        if(consumed == ""){
+        if(consumed.contains("")){
             Toast.makeText(getApplicationContext(), "Bitte die Menge eingeben", Toast.LENGTH_SHORT).show();
         }
         else {
