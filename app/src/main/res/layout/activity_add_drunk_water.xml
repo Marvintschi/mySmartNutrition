@@ -58,7 +58,7 @@
             android:layout_marginTop="16dp"
             android:backgroundTint="#FFFFFF"
             android:ems="4"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:textColor="#FFFFFF"
             android:textSize="17sp"
             android:text=""/>
