@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private Button addBreakfast;
     private Button addLunch;
     private Button addDinner;
-    private TextView tvStepCounter , totalBreakfast, totalLunch, totalDinner, totalSnack, aufgebrauchtKcal, tvTageswertLimit, tvWasserZiel;
+    private TextView tvStepCounter , totalBreakfast, totalLunch, totalDinner, totalSnack, aufgebrauchtKcal, tvTageswertLimit, tvWasserZiel, tvStepsKcal;
     private AnyChartView nutritionChart;
 
     private SensorManager sensorManager;
@@ -126,10 +126,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         totalDinner = findViewById(R.id.gesamtwert_dinner);
         totalSnack = findViewById(R.id.gesamtwert_snacks);
 
-        // TODO Werden möglicherweise geändert
         aufgebrauchtKcal = findViewById(R.id.tageswert_aufgebraucht);
         tvTageswertLimit = findViewById(R.id.tageswert_limit);
         tvWasserZiel = findViewById(R.id.wasser_tagesziel);
+        tvStepsKcal = findViewById(R.id.stepKcal);
 
         addButton = findViewById(R.id.fab);
         addBreakfast = findViewById(R.id.add_product_breakfast);
@@ -335,6 +335,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             pushStepsToDB(dayStep, stepCount, savedDate);
 
             tvStepCounter.setText(String.valueOf(dayStep));
+
+            float stepsInKcal = dayStep * 0.035f;
+            tvStepsKcal.setText("ca." + String.format("%.3f", stepsInKcal) + " kcal");
 
             pushStepsToOnlineDB();
         }
