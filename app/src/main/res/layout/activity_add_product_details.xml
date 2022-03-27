@@ -245,7 +245,8 @@
             android:textAlignment="viewEnd"
             android:backgroundTint="@color/white"
             android:textColor="@color/white"
-            android:textSize="17sp" />
+            android:textSize="17sp"
+            android:text=""/>
 
         <TextView
             android:id="@+id/textView_g_ml"
