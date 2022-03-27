@@ -84,9 +84,8 @@
 
                     <TextView
                         android:id="@+id/headerTageslimit"
-                        android:layout_width="wrap_content"
+                        android:layout_width="200sp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_marginStart="10dp"
                         android:textColor="@color/white"
                         android:textSize="13sp"
@@ -94,9 +93,9 @@
 
                     <TextView
                         android:id="@+id/headerAufgebraucht"
-                        android:layout_width="wrap_content"
+                        android:layout_width="200sp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_marginStart="10dp"
                         android:textColor="@color/white"
                         android:textSize="13sp"
                         android:text="@string/aufgebrauchte_kalorien_header" />
@@ -109,9 +108,8 @@
 
                     <TextView
                         android:id="@+id/tageswert_limit"
-                        android:layout_width="wrap_content"
+                        android:layout_width="200sp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
                         android:layout_marginStart="10dp"
                         android:layout_marginVertical="3dp"
                         android:textColor="@color/white"
@@ -120,10 +118,10 @@
 
                     <TextView
                         android:id="@+id/tageswert_aufgebraucht"
-                        android:layout_width="wrap_content"
+                        android:layout_width="200sp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
                         android:layout_marginVertical="3dp"
-                        android:layout_weight="0.5"
                         android:text="0 kcal"
                         android:textColor="@color/white"
                         android:textSize="20sp" />
@@ -138,9 +136,8 @@
 
                     <TextView
                         android:id="@+id/header_wz"
-                        android:layout_width="wrap_content"
+                        android:layout_width="200sp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_marginStart="10dp"
                         android:layout_marginTop="10dp"
                         android:textColor="@color/white"
@@ -149,9 +146,9 @@
 
                     <TextView
                         android:id="@+id/header_wbz"
-                        android:layout_width="wrap_content"
+                        android:layout_width="200sp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_marginStart="10dp"
                         android:layout_marginTop="10dp"
                         android:textColor="@color/white"
                         android:textSize="13sp"
@@ -165,22 +162,21 @@
 
                     <TextView
                         android:id="@+id/wasser_tagesziel"
-                        android:layout_width="wrap_content"
+                        android:layout_width="200sp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_marginStart="10dp"
                         android:layout_marginVertical="3dp"
                         android:textColor="@color/white"
                         android:textSize="20sp"
-                        android:text="2500 Liter" />
+                        android:text="2 Liter" />
 
                     <TextView
                         android:id="@+id/wasser_bis_tagesziel"
-                        android:layout_width="wrap_content"
+                        android:layout_width="200sp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
                         android:layout_marginVertical="3dp"
-                        android:layout_weight="0.93"
-                        android:text="0 Liter"
+                        android:text="2 Liter"
                         android:textColor="@color/white"
                         android:textSize="20sp" />
 

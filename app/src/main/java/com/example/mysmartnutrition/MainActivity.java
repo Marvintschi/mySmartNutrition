@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private Button addBreakfast;
     private Button addLunch;
     private Button addDinner;
-    private TextView tvStepCounter , totalBreakfast, totalLunch, totalDinner, totalSnack, aufgebrauchtKcal, tvTageswertLimit;
+    private TextView tvStepCounter , totalBreakfast, totalLunch, totalDinner, totalSnack, aufgebrauchtKcal, tvTageswertLimit, tvWasserZiel;
     private AnyChartView nutritionChart;
 
     private SensorManager sensorManager;
@@ -123,9 +123,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         totalDinner = findViewById(R.id.gesamtwert_dinner);
         totalSnack = findViewById(R.id.gesamtwert_snacks);
 
-        // TODO Werden möglicherweise geändert
         aufgebrauchtKcal = findViewById(R.id.tageswert_aufgebraucht);
         tvTageswertLimit = findViewById(R.id.tageswert_limit);
+        tvWasserZiel = findViewById(R.id.wasser_tagesziel);
 
         addButton = findViewById(R.id.fab);
         addBreakfast = findViewById(R.id.add_product_breakfast);
@@ -171,7 +171,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             editor.commit();
         }
 
-        tvTageswertLimit.setText(sharedPreferences.getString(settings.KCAL_GOAL + " kcal", "1000 kcal"));
+        tvTageswertLimit.setText(sharedPreferences.getString(settings.KCAL_GOAL, "1000 kcal"));
+        tvWasserZiel.setText(sharedPreferences.getString(settings.WATER_GOAL, "2 Liter"));
 
         resultCarb = 0;
         resultProtein = 0;
@@ -333,7 +334,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         if(sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER) != null) {
             sensorManager.registerListener(this, stepCounterSensor, SensorManager.SENSOR_DELAY_UI);
         }
-        tvTageswertLimit.setText(sharedPreferences.getString(settings.KCAL_GOAL, "2500"));
+        tvTageswertLimit.setText(sharedPreferences.getString(settings.KCAL_GOAL, "3000") + " kcal");
+        tvWasserZiel.setText(sharedPreferences.getString(settings.WATER_GOAL, "5") + " L");
     }
 
     @Override

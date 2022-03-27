@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -47,9 +48,9 @@ public class AddProductDetails extends AppCompatActivity {
     private Spinner spinner;
     private ProgressDialog progressDialog;
 
-    String savedDate = String.valueOf(java.time.LocalDate.now());
-    String consumed;
-    String UserID;
+    private String savedDate = String.valueOf(java.time.LocalDate.now());
+    private String consumed;
+    private String UserID;
 
     ProgressDialog progressDialog2;
 
@@ -239,7 +240,9 @@ public class AddProductDetails extends AppCompatActivity {
             String meal = spinner.getSelectedItem().toString();
             db.insertDataToDB(savedDate, produktName, hersteller, barcode, energie, kohlenhydrate, fett, proteine, ballastStoffe, consumed, meal);
             saveDataToOnlineDB();
-            // better than using an intent
+
+            Intent intent = new Intent(AddProductDetails.this, MainActivity.class);
+            startActivity(intent);
             finish();
         }
     }

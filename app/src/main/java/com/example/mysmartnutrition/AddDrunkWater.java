@@ -11,10 +11,10 @@ import android.widget.Toast;
 
 public class AddDrunkWater extends AppCompatActivity {
 
-    EditText wasserAngabe;
-    Button btnBestätigen;
+    private EditText wasserAngabe;
+    private Button btnBestätigen;
 
-    String drunkWater;
+    private String drunkWater;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +33,11 @@ public class AddDrunkWater extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Bitte das getrunkene Wasser eingeben", Toast.LENGTH_SHORT).show();
                 }
                 else {
+                    // TODO Hier noch die einträge in die Datenbank durchführen
 
 
-                    // better than using an intent
+                    Intent intent = new Intent(AddDrunkWater.this, MainActivity.class);
+                    startActivity(intent);
                     finish();
                 }
             }

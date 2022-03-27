@@ -32,20 +32,18 @@ import java.util.Map;
 
 public class settings extends AppCompatActivity {
 
-    Button btnSaveGoals;
-    TextView tvUserID;
-    EditText tvChangeKcal, tvChangeSteps, tvChangeWater;
+    private Button btnSaveGoals;
+    private TextView tvUserID;
+    private EditText tvChangeKcal, tvChangeSteps, tvChangeWater;
 
     ProgressDialog progressDialog;
 
-
-    Connection connection;
-    String ConnectionResult = "";
-    String kcalGoal, stepsGoal, waterGoal;
+    private String kcalGoal, stepsGoal, waterGoal;
 
     static final String KCAL_GOAL = "kcalGoal";
     static final String STEPS_GOAL = "stepsGoal";
     static final String WATER_GOAL = "waterGoal";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +59,10 @@ public class settings extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(MainActivity.SHARED_PREFS, MODE_PRIVATE);
         tvUserID.setText(sharedPreferences.getString(MainActivity.USER_ID, "Error"));
 
+        tvChangeKcal.setText(sharedPreferences.getString(KCAL_GOAL, ""));
+        tvChangeSteps.setText(sharedPreferences.getString(STEPS_GOAL, ""));
+        tvChangeWater.setText(sharedPreferences.getString(WATER_GOAL, ""));
+
         progressDialog = new ProgressDialog(this);
 
         btnSaveGoals.setOnClickListener(new View.OnClickListener() {
@@ -68,13 +70,13 @@ public class settings extends AppCompatActivity {
             public void onClick(View v) {
                 // TODO Speichern der Einstellungen implementieren
                 if (!String.valueOf(tvChangeKcal.getText()).equals("")) {
-                    kcalGoal = tvChangeKcal.getText().toString().trim();
+                    kcalGoal = String.valueOf(tvChangeKcal.getText());
                 }
                 if (!String.valueOf(tvChangeSteps.getText()).equals("")) {
-                    stepsGoal = tvChangeSteps.getText().toString().trim();
+                    stepsGoal = String.valueOf(tvChangeSteps.getText()).trim();
                 }
                 if (!String.valueOf(tvChangeWater.getText()).equals("")) {
-                    waterGoal = tvChangeWater.getText().toString().trim();
+                    waterGoal = String.valueOf(tvChangeWater.getText()).trim();
                 }
 
                 if (!String.valueOf(tvChangeKcal.getText()).equals("") && !String.valueOf(tvChangeSteps.getText()).equals("")
