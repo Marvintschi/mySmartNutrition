@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     SharedPreferences.Editor editor;
 
     DatabaseHelper db;
+    DatabaseHelper2 db2;
     ProgressDialog progressDialog, progressDialog2;
     String UserID2;
 
@@ -100,6 +101,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     int result1, result2, result3, result4;
     //nährwerte results
     float resultCarb, resultFiber, resultFat, resultProtein;
+    //wasser result
+    float resultWater;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,6 +146,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         savedDate = String.valueOf(java.time.LocalDate.now());
 
         db = new DatabaseHelper(MainActivity.this);
+        db2 = new DatabaseHelper2(MainActivity.this);
         //db.insertDataToDB();
         product_name_breakfast = new ArrayList<>();
         product_manufacture_breakfast = new ArrayList<>();
@@ -180,6 +184,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         resultFat = 0;
         resultFiber = 0;
 
+        SQLiteDatabase database = openOrCreateDatabase("mysmartnutrition.db", MODE_PRIVATE, null);
+        database.execSQL("create table if not exists test3(date text, dayStep integer, systemCounter integer)");
+        SQLiteDatabase database2 = openOrCreateDatabase("water.db", MODE_PRIVATE, null);
+        database2.execSQL("create table if not exists water(date text, waterDay float)");
+
         storeDataInArrays("Frühstück", savedDate);
         customAdapter = new CustomAdapter(MainActivity.this, product_name_breakfast, product_manufacture_breakfast, product_kcal_breakfast);
         recyclerView.setAdapter(customAdapter);
@@ -199,6 +208,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         Adapter3 = new CustomAdapter(MainActivity.this, product_name_snacks, product_manufacture_snacks, product_kcal_snacks);
         recyclerView4.setAdapter(Adapter3);
         recyclerView4.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+
+        //get and show the water
+        try {
+            storeWater(savedDate);
+        }
+        catch (Exception e){
+
+        }
 
         int currentKcal = result1 + result2 + result3 + result4;
         aufgebrauchtKcal.setText(String.valueOf(currentKcal) + " kcal" + "");
@@ -247,8 +264,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         setupNutritionChart();
 
-        SQLiteDatabase database = openOrCreateDatabase("mysmartnutrition.db", MODE_PRIVATE, null);
-        database.execSQL("create table if not exists test3(date text, dayStep integer, systemCounter integer)");
+
 
         /*java.io.File file = new java.io.File("/data/data/com.example.mysmartnutrition/databases/mysmartnutrition.db");
         if (file.exists()) {
@@ -455,6 +471,22 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 product_kcal_snacks.add(String.valueOf(kcalSingle));
             }
             totalSnack.setText(String.valueOf(result4) + " kcal");
+        }
+    }
+
+    public void storeWater(String date){
+        Cursor cursor2 = db2.viewData(date);
+
+
+        if(cursor2.getCount() == 0){
+            // Toast.makeText(this, "No data to show", Toast.LENGTH_SHORT).show();
+        } else{
+            while (cursor2.moveToNext()){
+                float water = Float.valueOf(cursor2.getFloat(1));
+                resultWater = water;
+
+            }
+            tvWasserZiel.setText(resultWater + " Liter");
         }
     }
 

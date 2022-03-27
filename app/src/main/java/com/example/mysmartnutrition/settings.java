@@ -117,7 +117,7 @@ public class settings extends AppCompatActivity {
         progressDialog.show();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
-                Constants.URL_REGISTER,
+                Constants.URL_UPDATE_GOALS,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -199,6 +199,4 @@ public class settings extends AppCompatActivity {
         RequestHandler.getInstance(this).addToRequestQueue(stringRequest);
 
     }
-
-
 }
