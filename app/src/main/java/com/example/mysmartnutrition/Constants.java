@@ -9,4 +9,6 @@ public class Constants {
     public static final String URL_UPDATE_STEPS = ROOT_URL + "updateSteps.php";
     public static final String URL_UPDATE_GOALS = ROOT_URL + "updateGoals.php";
     public static final String URL_GET_GOALS= ROOT_URL + "getGoals.php";
+    public static final String URL_UPDATE_WATER = ROOT_URL + "updateWater.php";
+
 }
