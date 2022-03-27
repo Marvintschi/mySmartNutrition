@@ -9,19 +9,28 @@ import android.widget.Button;
 
 public class AddProduct extends AppCompatActivity {
 
-    Button QRCodeButton;
+    Button barcodeButton, btnWasserAngabe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_product);
 
-        QRCodeButton = findViewById(R.id.qr_code_button);
+        barcodeButton = findViewById(R.id.barcode_button);
+        btnWasserAngabe = findViewById(R.id.wasser_angeben);
 
-        QRCodeButton.setOnClickListener(new View.OnClickListener() {
+        barcodeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(AddProduct.this, BarcodeScanner.class);
+                startActivity(intent);
+            }
+        });
+
+        btnWasserAngabe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AddProduct.this, AddDrunkWater.class);
                 startActivity(intent);
             }
         });

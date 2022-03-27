@@ -249,7 +249,7 @@ public class AddProductDetails extends AppCompatActivity {
         DatabaseHelper db;
         db = new DatabaseHelper(AddProductDetails.this);
         consumed = amountConsumed.getText().toString();
-        if(consumed.contains("")){
+        if(consumed.equals("")){
             Toast.makeText(getApplicationContext(), "Bitte die Menge eingeben", Toast.LENGTH_SHORT).show();
         }
         else {
