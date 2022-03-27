@@ -176,7 +176,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:layout_marginVertical="3dp"
-                        android:text="2 Liter"
+                        android:text="0 Liter"
                         android:textColor="@color/white"
                         android:textSize="20sp" />
 
