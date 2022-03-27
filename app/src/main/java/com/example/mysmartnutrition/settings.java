@@ -1,7 +1,9 @@
 package com.example.mysmartnutrition;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,16 +13,31 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
 
 public class settings extends AppCompatActivity {
 
     Button btnSaveGoals;
-
     TextView tvUserID;
     EditText tvChangeKcal, tvChangeSteps, tvChangeWater;
+
+    ProgressDialog progressDialog;
+
 
     Connection connection;
     String ConnectionResult = "";
@@ -44,24 +61,27 @@ public class settings extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(MainActivity.SHARED_PREFS, MODE_PRIVATE);
         tvUserID.setText(sharedPreferences.getString(MainActivity.USER_ID, "Error"));
 
+        progressDialog = new ProgressDialog(this);
+
         btnSaveGoals.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO Speichern der Einstellungen implementieren
                 if (!String.valueOf(tvChangeKcal.getText()).equals("")) {
-                    kcalGoal = String.valueOf(tvChangeKcal.getText());
+                    kcalGoal = tvChangeKcal.getText().toString().trim();
                 }
                 if (!String.valueOf(tvChangeSteps.getText()).equals("")) {
-                    stepsGoal = String.valueOf(tvChangeSteps.getText());
+                    stepsGoal = tvChangeSteps.getText().toString().trim();
                 }
                 if (!String.valueOf(tvChangeWater.getText()).equals("")) {
-                    waterGoal = String.valueOf(tvChangeWater.getText());
+                    waterGoal = tvChangeWater.getText().toString().trim();
                 }
 
                 if (!String.valueOf(tvChangeKcal.getText()).equals("") && !String.valueOf(tvChangeSteps.getText()).equals("")
                         && !String.valueOf(tvChangeWater.getText()).equals("")) {
 
                     saveSettings();
+                    saveSettingsToDB();
                     finish();
 
                 } else {
@@ -79,6 +99,51 @@ public class settings extends AppCompatActivity {
         editor.putString(STEPS_GOAL, stepsGoal);
         editor.putString(WATER_GOAL, waterGoal);
         editor.commit();
+
+    }
+
+    public void saveSettingsToDB(){
+        progressDialog.setMessage("Übermittle Daten...");
+        progressDialog.show();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                Constants.URL_REGISTER,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        progressDialog.dismiss();
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            //Toast.makeText(getApplicationContext(), jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getApplicationContext(), error.getMessage(),Toast.LENGTH_SHORT).show();
+                    }
+                }){
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                String userID = tvUserID.getText().toString().trim();
+                params.put("kcal", kcalGoal);
+                params.put("step", stepsGoal);
+                params.put("water", waterGoal);
+                params.put("userID", userID);
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
     }
 
 

@@ -174,6 +174,8 @@ public class AddProductDetails extends AppCompatActivity {
                     }
                     try {
                         menge = product.getString("quantity");
+                        menge = menge.replace(" e", "");
+                        menge = menge.replace("e ", "");
                     } catch (Exception e) {
                         menge = "1";
                     }
