@@ -83,7 +83,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     SharedPreferences.Editor editor;
 
     DatabaseHelper db;
-    ProgressDialog progressDialog;
+    ProgressDialog progressDialog, progressDialog2;
+    String UserID2;
 
 
     RecyclerView recyclerView, recyclerView2, recyclerView3, recyclerView4;
@@ -113,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         progressDialog = new ProgressDialog(this);
+        progressDialog2 = new ProgressDialog(this);
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 
@@ -171,6 +173,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         tvTageswertLimit.setText(sharedPreferences.getString(settings.KCAL_GOAL + " kcal", "1000 kcal"));
 
+        resultCarb = 0;
+        resultProtein = 0;
+        resultFat = 0;
+        resultFiber = 0;
 
         storeDataInArrays("Frühstück", savedDate);
         customAdapter = new CustomAdapter(MainActivity.this, product_name_breakfast, product_manufacture_breakfast, product_kcal_breakfast);
@@ -202,6 +208,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 startActivity(intent);
             }
         });
+
+
 
         /*addBreakfast.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -310,6 +318,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             pushStepsToDB(dayStep, stepCount, savedDate);
 
             tvStepCounter.setText(String.valueOf(dayStep));
+
+            pushStepsToOnlineDB();
         }
     }
 
@@ -495,6 +505,53 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
                 params.put("userID", String.valueOf(UserID));
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    public void pushStepsToOnlineDB(){
+        String [] dateArray = savedDate.split("-");
+        String savedDateFormatted = dateArray[2] + "." + dateArray[1] + "." + dateArray[0];
+        progressDialog2.setMessage("Übermittle Daten...");
+        //progressDialog2.show();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                Constants.URL_UPDATE_STEPS,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        progressDialog2.dismiss();
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            //Toast.makeText(getApplicationContext(), jsonObject.getString("message"),Toast.LENGTH_SHORT).show();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getApplicationContext(), error.getMessage(),Toast.LENGTH_SHORT).show();
+                    }
+                }){
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                SharedPreferences sharedPreferences = getSharedPreferences(MainActivity.SHARED_PREFS, MODE_PRIVATE);
+                UserID2 =sharedPreferences.getString(MainActivity.USER_ID, "Error");
+
+                Map<String, String> params = new HashMap<>();
+                params.put("userID", UserID2);
+                params.put("countedSteps", String.valueOf(dayStep));
+                params.put("date", savedDateFormatted);
                 return params;
             }
         };
