@@ -19,6 +19,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MySmartNutrition">
         <activity
+            android:name=".CalenderDateSelect"
+            android:exported="false" />
+        <activity
             android:name=".AddDrunkWater"
             android:exported="false" />
         <activity

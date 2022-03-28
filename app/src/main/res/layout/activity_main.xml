@@ -35,43 +35,25 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_gravity="center">
+                    android:gravity="center">
 
-                    <ImageButton
-                        android:id="@+id/imageButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@color/background"
-                        app:srcCompat="@drawable/arrow_back"/>
-
-                    <TextView
-                        android:id="@+id/headerTextView"
-                        android:layout_width="80dp"
-                        android:layout_height="30dp"
-                        android:layout_margin="10dp"
-                        android:layout_gravity="center"
-                        android:layout_weight="1.5"
-                        android:textAlignment="center"
-                        android:textSize="20sp"
+                    <Button
+                        android:id="@+id/headerButton"
+                        android:layout_width="195sp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="60sp"
+                        android:text="@string/header_text"
+                        android:textAlignment="viewEnd"
                         android:textColor="@color/white"
-                        android:text="@string/header_text" />
-
-                    <ImageButton
-                        android:id="@+id/imageButton2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:textAllCaps="false"
                         android:background="@color/background"
-                        app:srcCompat="@drawable/arrow_forward"/>
+                        android:textSize="22sp" />
 
                     <ImageView
                         android:id="@+id/imageView"
                         android:layout_width="35dp"
                         android:layout_height="35dp"
-                        android:layout_marginTop="2dp"
-                        android:layout_marginRight="8dp"
+                        android:layout_marginEnd="10dp"
                         android:onClick="showSettings"
                         app:srcCompat="@drawable/settings_icon" />
 

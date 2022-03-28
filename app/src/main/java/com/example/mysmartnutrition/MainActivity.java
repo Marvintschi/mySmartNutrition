@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private Button addBreakfast;
     private Button addLunch;
     private Button addDinner;
+    private Button selectDate;
     private TextView tvStepCounter , totalBreakfast, totalLunch, totalDinner, totalSnack, aufgebrauchtKcal, tvTageswertLimit, tvWasserZiel, tvStepsKcal, tvWasserCurrent;
     private AnyChartView nutritionChart;
 
@@ -139,6 +140,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         addBreakfast = findViewById(R.id.add_product_breakfast);
         addLunch = findViewById(R.id.add_product_lunch);
         addDinner = findViewById(R.id.add_product_dinner);
+        selectDate = findViewById(R.id.headerButton);
         tvStepCounter = findViewById(R.id.stepCounter);
         nutritionChart = findViewById(R.id.nutrition_chart_view);
 
@@ -230,7 +232,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         });
 
-
+        selectDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, CalenderDateSelect.class);
+                startActivity(intent);
+            }
+        });
 
         /*addBreakfast.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -338,7 +346,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
             tvStepCounter.setText(String.valueOf(dayStep));
 
-            int stepsInKcal = (int) ((int) dayStep * 0.035);
+            int stepsInKcal = (int) ( dayStep * 0.035);
             tvStepsKcal.setText("ca." + String.valueOf(stepsInKcal) + " kcal");
 
             pushStepsToOnlineDB();
@@ -480,7 +488,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     public void storeWater(String date){
-        Cursor cursor2 = db2.viewData(date);
+        /* Cursor cursor2 = db2.viewData(date);
 
 
         if(cursor2.getCount() == 0){
@@ -492,7 +500,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
             }
             tvWasserCurrent.setText(resultWater + " Liter");
-        }
+        } */
     }
 
     public void setupNutritionChart() {

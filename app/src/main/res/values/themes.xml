@@ -14,4 +14,9 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="CalenderViewCustom" parent="Theme.AppCompat">
+        <item name="colorAccent">@color/secondaryMain</item>
+        <item name="colorPrimary">@color/white</item>
+    </style>
+
 </resources>
