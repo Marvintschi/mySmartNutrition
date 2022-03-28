@@ -49,7 +49,7 @@ public class CalenderDateSelect extends AppCompatActivity {
         bestätigen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), selectedDate, Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), selectedDate, Toast.LENGTH_LONG).show();
                 // TODO Fertigstellen
                 Intent intent = new Intent(CalenderDateSelect.this, MainActivity.class);
                 intent.putExtra("date", selectedDate);

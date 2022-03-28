@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         }
 
-        Toast.makeText(getApplicationContext(), savedDate, Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(), savedDate, Toast.LENGTH_LONG).show();
 
 
 
