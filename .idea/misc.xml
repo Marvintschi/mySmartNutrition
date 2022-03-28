@@ -9,7 +9,6 @@
         <entry key="..\:/Users/Megaport/AndroidStudioProjects/mySmartNutrition/app/src/main/res/layout/activity_add_product.xml" value="0.358695652173913" />
         <entry key="..\:/Users/Megaport/AndroidStudioProjects/mySmartNutrition/app/src/main/res/layout/activity_add_product_details.xml" value="0.33" />
         <entry key="..\:/Users/Megaport/AndroidStudioProjects/mySmartNutrition/app/src/main/res/layout/activity_barcode_scanner.xml" value="0.25" />
-        <entry key="..\:/Users/Megaport/AndroidStudioProjects/mySmartNutrition/app/src/main/res/layout/activity_calender_date_select.xml" value="0.3596014492753623" />
         <entry key="..\:/Users/Megaport/AndroidStudioProjects/mySmartNutrition/app/src/main/res/layout/activity_main.xml" value="0.28038897893030795" />
         <entry key="..\:/Users/Megaport/AndroidStudioProjects/mySmartNutrition/app/src/main/res/layout/activity_settings.xml" value="0.23229166666666667" />
         <entry key="..\:/Users/Megaport/AndroidStudioProjects/mySmartNutrition/app/src/main/res/layout/my_dropdown_item.xml" value="0.20625" />
@@ -17,10 +16,10 @@
         <entry key="..\:/Users/Megaport/AndroidStudioProjects/mySmartNutrition/app/src/main/res/layout/my_selected_item.xml" value="0.20625" />
         <entry key="..\:/Users/Megaport/AndroidStudioProjects/mySmartNutrition/app/src/main/res/layout/simple_spinner_item.xml" value="0.20625" />
         <entry key="..\:/Users/Megaport/AndroidStudioProjects/mySmartNutrition/app/src/main/res/layout/spinner_dropdown_item.xml" value="0.18802083333333333" />
-        <entry key="..\:/Users/Megaport/AndroidStudioProjects/mySmartNutrition/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.3395" />
         <entry key="..\:/Users/Megaport/AppData/Local/Android/Sdk/platforms/android-31/data/res/layout/simple_spinner_dropdown_item.xml" value="0.18802083333333333" />
         <entry key="..\:/Users/marvi/AndroidStudioProjects/mySmartNutrition/app/src/main/res/layout/activity_add_drunk_water.xml" value="0.2871376811594203" />
         <entry key="..\:/Users/marvi/AndroidStudioProjects/mySmartNutrition/app/src/main/res/layout/activity_add_product_details.xml" value="0.2921195652173913" />
+        <entry key="..\:/Users/marvi/AndroidStudioProjects/mySmartNutrition/app/src/main/res/layout/activity_calender_date_select.xml" value="0.2871376811594203" />
         <entry key="..\:/Users/marvi/AndroidStudioProjects/mySmartNutrition/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Users/marvi/AndroidStudioProjects/mySmartNutrition/app/src/main/res/layout/activity_settings.xml" value="0.2066869300911854" />
         <entry key="..\:/Users/marvi/AndroidStudioProjects/mySmartNutrition/app/src/main/res/layout/my_row.xml" value="0.22708333333333333" />

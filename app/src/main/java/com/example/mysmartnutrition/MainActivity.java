@@ -151,6 +151,21 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         savedDate = String.valueOf(java.time.LocalDate.now());
 
+        String dateChange = "";
+        try {
+            dateChange = getIntent().getStringExtra("date");
+            if(!dateChange.equals("")){
+                savedDate = dateChange;
+            }
+
+        }catch (Exception e){
+
+        }
+
+        Toast.makeText(getApplicationContext(), savedDate, Toast.LENGTH_LONG).show();
+
+
+
         db = new DatabaseHelper(MainActivity.this);
         db2 = new DatabaseHelper2(MainActivity.this);
         //db.insertDataToDB();
