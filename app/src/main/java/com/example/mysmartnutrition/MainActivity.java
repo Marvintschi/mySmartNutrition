@@ -75,12 +75,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     public static final String SHARED_PREFS = "sharedPrefs";
     public static final String USER_ID = "userID";
+    public static final String FIRST_APP_START = "firstAppStart";
 
     static Random random = new Random();
     public final static int UserID = random.nextInt(10000000);
 
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
+
 
     DatabaseHelper db;
     DatabaseHelper2 db2;
@@ -176,6 +178,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             checkIfUserIDisAllreadyInUse();
             editor.putString(USER_ID, String.valueOf(UserID));
             editor.commit();
+            firstAppStart();
         }
 
         tvTageswertLimit.setText(sharedPreferences.getString(settings.KCAL_GOAL, "1000") + " kcal");
@@ -188,8 +191,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         SQLiteDatabase database = openOrCreateDatabase("mysmartnutrition.db", MODE_PRIVATE, null);
         database.execSQL("create table if not exists test3(date text, dayStep integer, systemCounter integer)");
-        //SQLiteDatabase database2 = openOrCreateDatabase("water.db", MODE_PRIVATE, null);
-        //database2.execSQL("create table if not exists water(date text, waterDay float)");
+
 
         storeDataInArrays("Frühstück", savedDate);
         customAdapter = new CustomAdapter(MainActivity.this, product_name_breakfast, product_manufacture_breakfast, product_kcal_breakfast);
@@ -210,6 +212,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         Adapter3 = new CustomAdapter(MainActivity.this, product_name_snacks, product_manufacture_snacks, product_kcal_snacks);
         recyclerView4.setAdapter(Adapter3);
         recyclerView4.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+
+
 
         //get and show the water
         storeWater(savedDate);
@@ -594,5 +598,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
+    }
+
+    public  void firstAppStart(){
+        SQLiteDatabase database2 = openOrCreateDatabase("water.db", MODE_PRIVATE, null);
+        database2.execSQL("create table if not exists water(date text, waterDay float)");
     }
 }
