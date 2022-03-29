@@ -80,7 +80,7 @@ public class settings extends AppCompatActivity {
                 if (!String.valueOf(tvChangeSteps.getText()).equals("")) {
                     stepsGoal = String.valueOf(tvChangeSteps.getText()).trim();
                 }
-                if (!String.valueOf(tvChangeWater.getText()).equals("")) {
+                if (!String.valueOf(tvChangeWater.getText()).equals("") && !String.valueOf(tvChangeWater.getText()).equals(".")) {
                     waterGoal = String.valueOf(tvChangeWater.getText()).trim();
                 }
 
