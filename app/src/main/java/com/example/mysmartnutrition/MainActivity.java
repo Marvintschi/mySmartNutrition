@@ -75,10 +75,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public String savedDate;
 
     public static final String SHARED_PREFS = "sharedPrefs";
-    public static final String USER_ID = "userID";
+    public static final String USER_ID = "userIDs";
 
     static Random random = new Random();
-    public final static int UserID = random.nextInt(10000000);
+    public int UserID = random.nextInt(1234567890);
 
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
@@ -188,13 +188,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
-        if (sharedPreferences.getString(USER_ID, null) != null) {
-            // hier soll nichts getan werden
-        } else {
+        String a = sharedPreferences.getString(USER_ID, "0");
+        if (a.equals("0")) {
             checkIfUserIDisAllreadyInUse();
             editor.putString(USER_ID, String.valueOf(UserID));
             editor.commit();
             firstAppStart();
+
+        } else {
+            // hier soll nichts getan werden
         }
 
         tvTageswertLimit.setText(sharedPreferences.getString(settings.KCAL_GOAL, "1000") + " kcal");
