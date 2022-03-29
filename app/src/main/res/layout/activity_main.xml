@@ -278,7 +278,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:background="@color/foreground_3">
+                    android:background="@color/foreground_1">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -315,8 +315,7 @@
 
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/foreground_3">
+                        android:layout_height="wrap_content">
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/lvContact2"
@@ -448,8 +447,7 @@
 
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/foreground_3">
+                        android:layout_height="wrap_content">
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/lvContact4"
