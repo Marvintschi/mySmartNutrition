@@ -18,5 +18,12 @@
         <item name="colorAccent">@color/secondaryMain</item>
         <item name="colorPrimary">@color/white</item>
     </style>
+    <style name="Theme.MySmartNutrition.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="Theme.MySmartNutrition.AppBarOverlay"
+        parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.MySmartNutrition.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

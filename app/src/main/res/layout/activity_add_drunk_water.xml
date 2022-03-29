@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
-            android:text="Seit dem letzen Eintrag getrunkenes Wasser in Liter:"
+            android:text="Seit dem letzten Eintrag getrunkenes Wasser in Litern:"
             android:textColor="#FFFFFF"
             android:textSize="17sp" />
 
@@ -84,7 +84,7 @@
 
         android:textColor="@color/white"
         android:textSize="15dp"
-        android:text="*Die Daten werden mit den seit dem letzen Eintrag des Tages
-angegebenen Liter verrechnet*" />
+        android:text="*Die Daten werden mit den seit dem letzten Eintrag des Tages
+angegebenen Litern verrechnet*" />
 
 </LinearLayout>
