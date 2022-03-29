@@ -76,7 +76,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     public static final String SHARED_PREFS = "sharedPrefs";
     public static final String USER_ID = "userID";
-    public static final String FIRST_APP_START = "firstAppStart";
 
     static Random random = new Random();
     public final static int UserID = random.nextInt(10000000);

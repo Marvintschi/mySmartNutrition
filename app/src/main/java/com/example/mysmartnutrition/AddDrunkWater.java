@@ -73,16 +73,18 @@ public class AddDrunkWater extends AppCompatActivity {
                     }
                     getDataFromDB(savedDate);
 
-                    waterToAdd = Float.valueOf(wasserAngabe.getText().toString());
-                    savedWater = savedWater + waterToAdd;
+                    if (!wasserAngabe.getText().toString().equals(".")) {
+                        waterToAdd = Float.valueOf(wasserAngabe.getText().toString());
+                        savedWater = savedWater + waterToAdd;
 
-                    pushWaterToDB(savedWater, savedDate);
+                        pushWaterToDB(savedWater, savedDate);
 
-                    pushWaterToOnlineDB();
+                        pushWaterToOnlineDB();
 
-                    Intent intent = new Intent(AddDrunkWater.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
+                        Intent intent = new Intent(AddDrunkWater.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
                 }
             }
         });
