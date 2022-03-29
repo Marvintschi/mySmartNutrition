@@ -183,6 +183,7 @@ public class AddProductDetails extends AppCompatActivity {
                     } catch (Exception e) {
                         menge = "1";
                     }
+                    roundData();
 
                 } catch (JSONException e) {
 
@@ -217,7 +218,6 @@ public class AddProductDetails extends AppCompatActivity {
                 progressDialog.dismiss();
             }
 
-            roundData();
             tvProduktName.setText(produktName);
             tvHersteller.setText(hersteller);
             tvFett.setText(fett);
@@ -231,7 +231,31 @@ public class AddProductDetails extends AppCompatActivity {
     }
 
     public void roundData(){
-        //String.valueOf(Double.valueOf(energie) = Math.round(Double.valueOf(energie) * 100) / 100.0);
+        if(energie.length()>5){
+            Double dEnergy = Double.valueOf(energie);
+            energie =  String.valueOf(Math.round((dEnergy * 100) / 100.0));
+        }
+
+        if(fett.length()>5){
+            Double dFett = Double.valueOf(fett);
+            fett =  String.valueOf(Math.round((dFett * 100) / 100.0));
+        }
+
+        if(kohlenhydrate.length()>5){
+            Double dKohlenhydrate = Double.valueOf(kohlenhydrate);
+            kohlenhydrate =  String.valueOf(Math.round((dKohlenhydrate * 100) / 100.0));
+        }
+
+        if(proteine.length()>5){
+            Double dProteine = Double.valueOf(proteine);
+            proteine =  String.valueOf(Math.round((dProteine * 100) / 100.0));
+        }
+
+        if(ballastStoffe.length()>5){
+            Double dBallaststoffe = Double.valueOf(ballastStoffe);
+            ballastStoffe =  String.valueOf(Math.round((dBallaststoffe * 100) / 100.0));
+        }
+
     }
 
     public void pushData(View view){
