@@ -503,7 +503,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     public void storeWater(String date){
-        /* Cursor cursor2 = db2.viewData(date);
+        Cursor cursor2 = db2.viewData(date);
 
 
         if(cursor2.getCount() == 0){
@@ -515,7 +515,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
             }
             tvWasserCurrent.setText(resultWater + " Liter");
-        } */
+        }
     }
 
     public void setupNutritionChart() {
