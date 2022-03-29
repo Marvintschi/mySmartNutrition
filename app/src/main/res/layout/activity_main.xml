@@ -92,11 +92,11 @@
                         android:id="@+id/tageswert_limit"
                         android:layout_width="200sp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
                         android:layout_marginVertical="3dp"
+                        android:layout_marginStart="10dp"
+                        android:text="0 kcal"
                         android:textColor="@color/white"
-                        android:textSize="20sp"
-                        android:text="2500 kcal" />
+                        android:textSize="20sp" />
 
                     <TextView
                         android:id="@+id/tageswert_aufgebraucht"
@@ -146,11 +146,11 @@
                         android:id="@+id/wasser_tagesziel"
                         android:layout_width="200sp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
                         android:layout_marginVertical="3dp"
+                        android:layout_marginStart="10dp"
+                        android:text="0 Liter"
                         android:textColor="@color/white"
-                        android:textSize="20sp"
-                        android:text="2 Liter" />
+                        android:textSize="20sp" />
 
                     <TextView
                         android:id="@+id/wasser_bis_tagesziel"
@@ -195,7 +195,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:layout_marginTop="10dp"
-                        android:text="ca. 300 kcal"
+                        android:text="ca. 0 kcal"
                         android:textColor="@color/white"
                         android:textSize="20sp" />
 

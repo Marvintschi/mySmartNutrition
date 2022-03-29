@@ -137,7 +137,7 @@ public class AddProductDetails extends AppCompatActivity {
                         sources = new JSONArray(product.getJSONObject("sources"));
                         System.out.print(sources);
                         hersteller = sources.getJSONObject(0).toString();*/
-                        hersteller = product.getString("owner");
+                        hersteller = product.getString("brands");
                         hersteller = hersteller.replace("org-", "");
                         hersteller = hersteller.replace("-", " ");
 
