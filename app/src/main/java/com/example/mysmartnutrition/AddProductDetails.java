@@ -217,6 +217,7 @@ public class AddProductDetails extends AppCompatActivity {
                 progressDialog.dismiss();
             }
 
+            roundData();
             tvProduktName.setText(produktName);
             tvHersteller.setText(hersteller);
             tvFett.setText(fett);
@@ -227,6 +228,10 @@ public class AddProductDetails extends AppCompatActivity {
             tvMenge.setText(menge);
 
         }
+    }
+
+    public void roundData(){
+        //String.valueOf(Double.valueOf(energie) = Math.round(Double.valueOf(energie) * 100) / 100.0);
     }
 
     public void pushData(View view){
