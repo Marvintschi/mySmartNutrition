@@ -92,7 +92,7 @@ public class settings extends AppCompatActivity {
                     finish();
 
                 } else {
-                    Toast.makeText(getApplicationContext(), "Keine Ziele gesetzt", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), "Keine Ziele gesetzt", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -136,7 +136,7 @@ public class settings extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(), error.getMessage(),Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(), error.getMessage(),Toast.LENGTH_SHORT).show();
                     }
                 }){
             @Nullable
@@ -173,7 +173,7 @@ public class settings extends AppCompatActivity {
                                 tvChangeSteps.setText(obj.getString("goalSteps"));
                                 tvChangeKcal.setText(obj.getString("goalKcal"));
                             }else{
-                                Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
