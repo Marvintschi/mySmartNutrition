@@ -23,7 +23,7 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="getrunkenes Wasser angeben"
+            android:text="Getrunkenes Wasser angeben"
             android:textColor="@color/white"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@+id/toolbar"
