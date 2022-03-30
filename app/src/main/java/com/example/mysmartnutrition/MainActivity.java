@@ -256,30 +256,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         });
 
-        /*addBreakfast.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, AddProduct.class);
-                startActivity(intent);
-            }
-        });
-
-        addLunch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, AddProduct.class);
-                startActivity(intent);
-            }
-        });
-
-        addDinner.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, AddProduct.class);
-                startActivity(intent);
-            }
-        });*/
-
         if(sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER) != null) {
             stepCounterSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
             isStepCounterPresent = true;
@@ -290,16 +266,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         setupNutritionChart();
 
-
-
-        /*java.io.File file = new java.io.File("/data/data/com.example.mysmartnutrition/databases/mysmartnutrition.db");
-        if (file.exists()) {
-        }else
-        {
-            generateEmptyEntry(savedDate, '0');
-        }
-
-        getDataFromDB(savedDate);*/
     }
 
     public void showSettings(View view){
@@ -309,7 +275,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     public void pushStepsToDB(int dayStep, int stepCount, String date){
         SQLiteDatabase database = openOrCreateDatabase("mysmartnutrition.db", MODE_PRIVATE, null);
-        //database.execSQL("create table if not exists test3(date text, dayStep integer, systemCounter integer)");
         database.execSQL("UPDATE test3 SET dayStep = "+"'"+ dayStep +"', systemCounter = '" + stepCount + "' WHERE date = " + "'" + date + "'");
         database.close();
     }
@@ -358,6 +323,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
             dayStep = dayStep + (stepCount - counterReading);
 
+            if(dayStep < 0){
+                dayStep = 0;
+            }
             pushStepsToDB(dayStep, stepCount, savedDate);
 
             tvStepCounter.setText(String.valueOf(dayStep));
