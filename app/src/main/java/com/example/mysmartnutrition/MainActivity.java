@@ -315,7 +315,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void onSensorChanged(SensorEvent event) {
         if(event.sensor == stepCounterSensor) {
             stepCount = (int) event.values[0];
-            savedDate = String.valueOf(java.time.LocalDate.now());
             if(checkIsEntryAlreadyInDB(savedDate) == false){
                 generateEmptyEntry(savedDate, '0');
             }
