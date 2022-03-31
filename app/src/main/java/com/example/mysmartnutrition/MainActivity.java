@@ -235,8 +235,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         //get and show the water
         storeWater(savedDate);
-        
-        loadSteps(savedDate);
 
 
         int currentKcal = result1 + result2 + result3 + result4;
@@ -360,28 +358,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             sensorManager.unregisterListener(this, stepCounterSensor);
         }
     }
-    
-    
-    public void loadSteps(String date){
-        if(checkIsEntryAlreadyInDB(date) == false){
-                generateEmptyEntry(date, '0');
-            }
-            getDataFromDB(date);
-
-            dayStep = dayStep + (stepCount - counterReading);
-
-            if(dayStep < 0){
-                dayStep = 0;
-            }
-            pushStepsToDB(dayStep, stepCount, date);
-
-            tvStepCounter.setText(String.valueOf(dayStep));
-
-            int stepsInKcal = (int) ( dayStep * 0.035);
-            tvStepsKcal.setText("ca." + String.valueOf(stepsInKcal) + " kcal");
-
-    }
-        
 
     public void storeDataInArrays(String meal, String date){
         Cursor cursor = db.viewData(meal, date);
@@ -620,3 +596,4 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         database2.execSQL("create table if not exists water(date text, waterDay float)");
     }
 }
+
