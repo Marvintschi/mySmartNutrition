@@ -236,7 +236,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         //get and show the water
         storeWater(savedDate);
         
-        loadSteps(saveDate);
+        loadSteps(savedDate);
 
 
         int currentKcal = result1 + result2 + result3 + result4;
@@ -362,7 +362,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
     
     
-    public void loadSteps(date){
+    public void loadSteps(String date){
         if(checkIsEntryAlreadyInDB(date) == false){
                 generateEmptyEntry(date, '0');
             }
