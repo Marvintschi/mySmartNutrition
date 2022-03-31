@@ -50,11 +50,10 @@ public class CalenderDateSelect extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(getApplicationContext(), selectedDate, Toast.LENGTH_LONG).show();
-                // TODO Fertigstellen
                 Intent intent = new Intent(CalenderDateSelect.this, MainActivity.class);
                 intent.putExtra("date", selectedDate);
                 startActivity(intent);
-                //finish();
+                finish();
             }
         });
     }
